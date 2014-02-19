@@ -9,6 +9,7 @@ public class Portfolio {
 
     private Stock stock;
     private String portfolioName;
+   
 
     public Portfolio(String portfolioName) {
         this.portfolioName = portfolioName;
@@ -30,5 +31,7 @@ public class Portfolio {
         ArrayList<Stock> stocks = new ArrayList<Stock>();
         return stocks;
     }
+
+
 
 }
