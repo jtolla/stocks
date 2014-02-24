@@ -7,7 +7,8 @@ import org.junit.Test;
 import static junit.framework.Assert.assertEquals;
 
 /**
- * Created by aconniff, sgerstrung and jtolla on 2/12/14.
+ * @author jtolla
+ *
  */
 public class PortfolioTest {
 

@@ -1,38 +1,40 @@
 package main.java;
 
-import java.util.ArrayList;
-
 /**
- * Created by aconniff, sgerstrung and jtolla on 2/12/14.
+ * @author jtolla
+ *
  */
 public class Stock {
 
     private String tickerSymbol;
+    private Double price;
+    private Integer volume;
+    private Double fiftyTwoWeekHigh;
+    private Double fiftyTwoWeekLow;
 
-    public Stock(String tickerSymbol) {
+    public Stock(String tickerSymbol, Double price, Integer volume,
+                 Double fiftyTwoWeekHigh, Double fiftyTwoWeekLow) {
 
         this.tickerSymbol = tickerSymbol;
+        this.price = price;
+        this.volume = volume;
+        this.fiftyTwoWeekHigh = fiftyTwoWeekHigh;
+        this.fiftyTwoWeekLow = fiftyTwoWeekLow;
 
     }
 
     public String getTickerSymbol() {
 
+
         return tickerSymbol;
     }
 
-    /**
-     * This method screen scrapes finance.yahoo.com for data
-     * associated with the provided ticker symbol.
-     */
-    public void getStockData() {
+    public Double getCurrentPrice() { return price; }
 
-    }
+    public Integer getVolume() { return volume; }
 
-    /**
-     * This method returns
-     *
-     * @return
-     */
-    public Integer getCurrentPrice() { return 0; }
+    public Double getFiftyTwoWeekHigh() { return fiftyTwoWeekHigh; }
+
+    public Double getFiftyTwoWeekLow() { return fiftyTwoWeekLow; }
 
 }
