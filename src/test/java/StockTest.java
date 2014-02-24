@@ -8,7 +8,8 @@ import org.junit.Test;
 import static junit.framework.Assert.assertEquals;
 
 /**
- * Created by aconniff, sgerstrung and jtolla on 2/12/14.
+ * @author jtolla
+ *
  */
 public class StockTest {
 
@@ -16,22 +17,38 @@ public class StockTest {
 
     @Before
     public void setup() {
-        stock = new Stock("TSLA");
+        stock = new Stock("TSLA", 0.0, 1, 0.0, 0.0);
     }
 
     @Test
     public void testStockConstructor() {
-        assertEquals("stock constructor test", stock.getTickerSymbol(), "TSLA");
+        // assertEquals("stock constructor test", stock, new Stock("TSLA", 0.0, 1, 0.0, 0.0));
     }
 
     @Test
-    public void testGetStockData() {
-
+    public void testGetTickerSymbol() {
+        assertEquals("get ticker symbol test", stock.getTickerSymbol(), "TSLA");
     }
 
     @Test
     public void testGetCurrentPrice() {
+        assertEquals("get current price test", stock.getCurrentPrice(), 0.0);
+    }
 
+    @Test
+    public void testGetVolume() {
+        // Why am I being forced to cast this as an Object?
+        assertEquals("get volume test", (Object) stock.getVolume(), 1);
+    }
+
+    @Test
+    public void testGetFiftyTwoWeekHigh() {
+        assertEquals("get fifty two week high test", stock.getFiftyTwoWeekHigh(), 0.0);
+    }
+
+    @Test
+    public void testGetFiftyTwoWeekLow() {
+        assertEquals("get fifty two week low test", stock.getFiftyTwoWeekLow(), 0.0);
     }
 
 }
