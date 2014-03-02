@@ -1,4 +1,4 @@
-package exceptions.java;
+package uml.spring2014.exceptions;
 
 /**
  *
