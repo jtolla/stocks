@@ -1,4 +1,4 @@
-package com.stockportfolio.database;
+package src.main.uml.spring2014.database;
 
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
