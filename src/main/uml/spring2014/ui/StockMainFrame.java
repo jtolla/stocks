@@ -1,6 +1,6 @@
-package uml.spring2014.ui;
+package src.main.uml.spring2014.ui;
 
-import main.uml.spring2014.exceptions.*;
+//import main.uml.spring2014.exceptions.*; 
 import javax.swing.JOptionPane;
 
 /**

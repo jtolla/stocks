@@ -1,11 +1,12 @@
-package test.java;
+package src.test.uml.spring2014;
 
-import main.java.Stock;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import static junit.framework.Assert.assertEquals;
+import src.main.uml.Stock;
 
 /**
  * @author jtolla

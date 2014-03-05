@@ -1,4 +1,4 @@
-package main.java;
+package src.main.uml;
 
 import java.io.BufferedReader;
 import java.io.IOException;
