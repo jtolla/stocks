@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="04952a13-0497-496b-bc37-653265950c5e" name="Default" comment="Ignored .idea directory and refactored some package references">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/uml/spring2014/ui/PortfolioFrame.java" afterPath="$PROJECT_DIR$/src/main/uml/spring2014/ui/PortfolioFrame.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    <list default="true" id="04952a13-0497-496b-bc37-653265950c5e" name="Default" comment="Ignored .idea directory and refactored some package references&#10;">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/.name" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/hibernate_4_3_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/junit_4_11_SNAPSHOT_20120416_1530.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/scopes/scope_settings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="" />
     </list>
     <ignored path="stocks.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -123,7 +133,7 @@
       <file leaf-file-name="Portfolio.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/uml/Portfolio.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="18" selection-start="121" selection-end="121" vertical-scroll-proportion="0.24350649" vertical-offset="0" max-vertical-offset="630">
+            <state line="36" column="0" selection-start="576" selection-end="576" vertical-scroll-proportion="0.8279221" vertical-offset="0" max-vertical-offset="630">
               <folding>
                 <element signature="e#534#541#0" expanded="true" />
               </folding>
@@ -443,6 +453,9 @@
     <property name="GenerateAntBuildDialog.outputFileNameProperty" value="stocks" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/.." />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
     </key>
@@ -732,12 +745,16 @@
       <created>1394405222149</created>
       <updated>1394405222149</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Ignored .idea directory and refactored some package references">
+      <created>1394405314694</created>
+      <updated>1394405314694</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="59" y="22" width="1148" height="736" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -984,7 +1001,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/uml/Portfolio.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="18" selection-start="121" selection-end="121" vertical-scroll-proportion="0.24350649" vertical-offset="0" max-vertical-offset="630">
+        <state line="36" column="0" selection-start="576" selection-end="576" vertical-scroll-proportion="0.8279221" vertical-offset="0" max-vertical-offset="630">
           <folding>
             <element signature="e#534#541#0" expanded="true" />
           </folding>
