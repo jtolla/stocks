@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Feb 18, 2014 11:11:34 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="main.java.Stock" table="STOCK">
+    <class name="main.uml.Stock" table="STOCK">
         <id name="tickerSymbol" type="java.lang.String" access="field">
             <column name="TICKERSYMBOL" />
             <generator class="assigned" />

@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Feb 18, 2014 10:56:39 PM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="main.java.Portfolio" table="stockportfolio">
+    <class name="main.uml.Portfolio" table="stockportfolio">
         <id name="stock" type="main.java.Stock" access="field">
             <column name="idstockportfolio" />
             <generator class="identity" />

@@ -1,4 +1,4 @@
-package src.main.uml;
+package main.uml;
 
 import java.util.ArrayList;
 
