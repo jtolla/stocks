@@ -9,7 +9,7 @@
   <property name="hibernate.connection.username">appuser</property>
   <property name="hibernate.default_schema">stockportfolio</property>
   <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-  <mapping resource="main/java/Portfolio.hbm.xml"/>
-  <mapping resource="main/java/Stock.hbm.xml"/>
+  <mapping resource="main/uml/Portfolio.hbm.xml"/>
+  <mapping resource="main/uml/Stock.hbm.xml"/>
  </session-factory>
 </hibernate-configuration>
