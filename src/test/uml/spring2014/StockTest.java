@@ -1,7 +1,6 @@
 package src.test.uml.spring2014;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +32,7 @@ public class StockTest {
 
     @Test
     public void testGetCurrentPrice() {
-        assertEquals("get current price test", stock.getCurrentPrice(), 0.0);
+        assertEquals("get current price test", (Object)stock.getCurrentPrice(), 0.0);
     }
 
     @Test
@@ -44,12 +43,12 @@ public class StockTest {
 
     @Test
     public void testGetFiftyTwoWeekHigh() {
-        assertEquals("get fifty two week high test", stock.getFiftyTwoWeekHigh(), 0.0);
+        assertEquals("get fifty two week high test", (Object) stock.getFiftyTwoWeekHigh(), 0.0);
     }
 
     @Test
     public void testGetFiftyTwoWeekLow() {
-        assertEquals("get fifty two week low test", stock.getFiftyTwoWeekLow(), 0.0);
+        assertEquals("get fifty two week low test", (Object)  stock.getFiftyTwoWeekLow(), 0.0);
     }
 
 }

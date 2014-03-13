@@ -1,10 +1,10 @@
-package test.java;
-
-import main.java.StockFetcher;
-import main.java.Stock;
+package src.test.uml.spring2014;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import src.main.uml.Stock;
+import src.main.uml.StockFetcher;
 
 /**
  * @author jtolla

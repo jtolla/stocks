@@ -1,4 +1,4 @@
-package test.java;
+package src.test.uml.spring2014;
 
 /**
  *
