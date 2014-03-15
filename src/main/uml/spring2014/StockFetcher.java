@@ -1,4 +1,4 @@
-package main.uml;
+package uml.spring2014;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,6 +8,8 @@ import java.net.URLConnection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+
+import uml.spring2014.Stock;
 
 
 /**
@@ -60,7 +62,7 @@ public class StockFetcher {
 
         } catch (IOException e) {
 
-            // Log messages if API call fails
+            // - HANDLE THIS - Log messages if API call fails
             Logger log = Logger.getLogger(Stock.class.getName());
             log.log(Level.SEVERE, e.toString(), e);
 
@@ -93,3 +95,4 @@ public class StockFetcher {
     }
 
 }
+

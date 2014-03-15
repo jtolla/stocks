@@ -1,4 +1,4 @@
-package test.uml.spring2014;
+package uml.spring2014;
 
 /**
  *

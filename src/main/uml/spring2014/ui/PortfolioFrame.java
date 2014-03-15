@@ -1,9 +1,8 @@
-package main.uml.spring2014.ui;
+package uml.spring2014.ui;
 
-import javax.swing.JOptionPane;
+import uml.spring2014.exceptions.NoDataException;
 
-import main.uml.spring2014.exceptions.NoDataException;
-import test.uml.spring2014.PortStubsSara;
+import javax.swing.*;
 
 /**
  *

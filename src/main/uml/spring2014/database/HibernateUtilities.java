@@ -1,4 +1,4 @@
-package src.main.uml.spring2014.database;
+package uml.spring2014.database;
 
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;

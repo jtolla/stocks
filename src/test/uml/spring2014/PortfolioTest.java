@@ -1,6 +1,5 @@
-package test.uml.spring2014;
+package uml.spring2014;
 
-import main.uml.Portfolio;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,7 +9,6 @@ import static junit.framework.Assert.assertEquals;
  * @author jtolla
  *
  */
-
 public class PortfolioTest {
 
     private Portfolio portfolio;

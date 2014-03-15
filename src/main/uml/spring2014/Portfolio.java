@@ -1,4 +1,4 @@
-package main.uml;
+package uml.spring2014;
 
 import java.util.ArrayList;
 

@@ -1,7 +1,4 @@
-package test.uml.spring2014;
-
-import main.uml.StockFetcher;
-import main.uml.Stock;
+package uml.spring2014;
 
 import org.junit.Before;
 import org.junit.Test;
