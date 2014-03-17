@@ -1,13 +1,14 @@
 package uml.spring2014.ui;
 
-import uml.spring2014.exceptions.NoDataException;
+import javax.swing.JOptionPane;
 
-import javax.swing.*;
+import uml.spring2014.exceptions.NoDataException;
 
 /**
  *
  * @author Sara Gerstung
  */
+@SuppressWarnings("serial")
 public class PortfolioFrame extends javax.swing.JFrame {
     
     /**
