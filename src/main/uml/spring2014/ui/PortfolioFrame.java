@@ -1,7 +1,6 @@
 package uml.spring2014.ui;
 
 import uml.spring2014.exceptions.NoDataException;
-
 import javax.swing.*;
 
 /**
@@ -15,7 +14,7 @@ public class PortfolioFrame extends javax.swing.JFrame {
      */
     public PortfolioFrame() {
         initComponents();
-        setTitle("Stock Market Portfolio System");
+        this.setTitle("Stock Market Portfolio System");
     }
 
     /**

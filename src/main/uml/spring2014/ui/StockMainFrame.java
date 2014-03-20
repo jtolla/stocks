@@ -1,10 +1,12 @@
 package uml.spring2014.ui;
 
-import uml.spring2014.exceptions.*;
 import javax.swing.JOptionPane;
+import javax.swing.DefaultListModel;
+import java.awt.Font;
 import uml.spring2014.Stock;
 import uml.spring2014.Portfolio;
 import uml.spring2014.StockFetcher;
+import uml.spring2014.exceptions.*;
 
 /**
  *
@@ -12,12 +14,14 @@ import uml.spring2014.StockFetcher;
  */
 public class StockMainFrame extends javax.swing.JFrame {
 
+    Portfolio portfolio = new Portfolio();
+
     /**
      * Creates new form StockMainFrame
      */
     public StockMainFrame() {
         initComponents();
-        this.setSize(600,600);
+        this.setSize(400,550);
         this.setTitle("Stock Market Portfolio System");
         portNameField.setText(portfolio.getPortfolioName());
     }
@@ -67,9 +71,14 @@ public class StockMainFrame extends javax.swing.JFrame {
 
         portNameField.setFocusable(false);
 
-        stockList.setBorder(javax.swing.BorderFactory.createTitledBorder("Your Stock List:"));
+        stockList.setBorder(javax.swing.BorderFactory.createTitledBorder("Your Stocks:"));
         stockList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         stockList.setToolTipText("");
+        stockList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                stockListMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(stockList);
 
         searchButton.setText("Search");
@@ -79,51 +88,49 @@ public class StockMainFrame extends javax.swing.JFrame {
             }
         });
 
-        tickerSearchField.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        /** Search label and ticker entry field with text example */
+	searchLabel.setText("Search Symbol:");
+
+        tickerSearchField.setFont(new java.awt.Font("Tahoma", 2, 11));
         tickerSearchField.setText("ex: 'TSLA'");
         tickerSearchField.setToolTipText("");
+        tickerSearchField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tickerSearchFieldMouseClicked(evt);
+            }
+        });
 
+	/** Create Labels and text fields to parse Stock data */
         symbolLabel.setText("Symbol:");
+	symbolField.setFocusable(false);
 
         priceLabel.setText("Price:");
+	priceField.setFocusable(false);
 
         volumeLabel.setText("Volume:");
-
-        yearHighLabel.setText("52 Week High:");
-
-        yearLowLabel.setText("52 Week Low:");
-
-        yearLowField.setFocusable(false);
-
-        yearHighField.setFocusable(false);
-
         volumeField.setFocusable(false);
 
-        priceField.setFocusable(false);
+        yearHighLabel.setText("52 Week High:");
+        yearHighField.setFocusable(false);
 
-        symbolField.setFocusable(false);
-
-        searchLabel.setText("Search Symbol:");
+        yearLowLabel.setText("52 Week Low:");
+        yearLowField.setFocusable(false);
 
         newSymbolLabel.setText("Symbol:");
-
         newSymbolField.setFocusable(false);
 
         newPriceLabel.setText("Price:");
-
-        newVolumeLabel.setText("Volume:");
-
-        newYearHighLabel.setText("52 Week High:");
-
-        newYearLowLabel.setText("52 Week Low:");
-
         newPriceField.setFocusable(false);
 
+        newVolumeLabel.setText("Volume:");
         newVolumeField.setFocusable(false);
-
+        
+	newYearHighLabel.setText("52 Week High:");
         newYearHighField.setFocusable(false);
-
+        
+	newYearLowLabel.setText("52 Week Low:");
         newYearLowField.setFocusable(false);
+
 
         addStockButton.setText("Add Stock");
         addStockButton.addActionListener(new java.awt.event.ActionListener() {
@@ -145,7 +152,7 @@ public class StockMainFrame extends javax.swing.JFrame {
                                 .addComponent(searchButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
                                 .addComponent(tickerSearchField, javax.swing.GroupLayout.Alignment.LEADING))
                             .addComponent(addStockButton)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(stockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                             .addComponent(yearLowLabel)
@@ -159,7 +166,7 @@ public class StockMainFrame extends javax.swing.JFrame {
                             .addComponent(newYearHighLabel)
                             .addComponent(newYearLowLabel)
                             .addComponent(portNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(stockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                             .addComponent(symbolField, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(priceField, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -171,7 +178,7 @@ public class StockMainFrame extends javax.swing.JFrame {
                             .addComponent(newVolumeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(newYearHighField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(newYearLowField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 28, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(stockPanelLayout.createSequentialGroup()
                         .addGroup(stockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSeparator1)
@@ -190,32 +197,34 @@ public class StockMainFrame extends javax.swing.JFrame {
             .addGroup(stockPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(portNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(stockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(stockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(stockPanelLayout.createSequentialGroup()
-                        .addComponent(symbolField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(stockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(symbolLabel)
+                            .addComponent(symbolField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(6, 6, 6)
-                        .addComponent(priceField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(stockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(priceLabel)
+                            .addComponent(priceField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(6, 6, 6)
-                        .addComponent(volumeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(stockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(volumeLabel)
+                            .addComponent(volumeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(6, 6, 6)
-                        .addComponent(yearHighField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(stockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(yearHighLabel)
+                            .addComponent(yearHighField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(6, 6, 6)
-                        .addComponent(yearLowField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(stockPanelLayout.createSequentialGroup()
-                        .addComponent(symbolLabel)
-                        .addGap(12, 12, 12)
-                        .addComponent(priceLabel)
-                        .addGap(12, 12, 12)
-                        .addComponent(volumeLabel)
-                        .addGap(9, 9, 9)
-                        .addComponent(yearHighLabel)
-                        .addGap(12, 12, 12)
-                        .addComponent(yearLowLabel)))
-                .addGap(7, 7, 7)
+                        .addGroup(stockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(yearLowLabel)
+                            .addComponent(yearLowField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(24, 24, 24))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, stockPanelLayout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15)))
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(searchLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(stockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -245,7 +254,7 @@ public class StockMainFrame extends javax.swing.JFrame {
                         .addComponent(searchButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(addStockButton)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         stockPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {newPriceField, newPriceLabel, newSymbolField, newSymbolLabel, newVolumeField, newVolumeLabel, newYearHighField, newYearHighLabel, newYearLowField, newYearLowLabel});
@@ -269,15 +278,15 @@ public class StockMainFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(clearButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(exitButton2)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(stockPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 238, Short.MAX_VALUE)
+                        .addComponent(clearButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(exitButton2))
+                    .addComponent(stockPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -295,11 +304,15 @@ public class StockMainFrame extends javax.swing.JFrame {
     }
 
     private void exitButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        this.dispose();
+        
+	/** Closes application */
+	this.dispose();
     }                                           
 
+    
     private void clearButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                             
         
+	/** Clears all text fields, does not clear stockList */
         newPriceField.setText("");
         newSymbolField.setText("");
         newVolumeField.setText("");
@@ -315,36 +328,101 @@ public class StockMainFrame extends javax.swing.JFrame {
     }                                            
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {                                             
-        Stock stock = StockFetcher.getStockData(tickerSearchField.getText());
         
-        String price = Double.toString(stock.getCurrentPrice());
-        String volume = Integer.toString(stock.getVolume());
-        String fiftyTwoWeekHigh = Double.toString(stock.getFiftyTwoWeekHigh());
-        String fiftyTwoWeekLow = Double.toString(stock.getFiftyTwoWeekLow());
+	/** Checks value entered is not null, and equal to four digits. 
+	  * Catch requires user to enter new value before search is executed.
+	  * Sends symbol to StockFetcher to retrieve data and parse to text fields.
+	  */
+  
+        try {
+                        
+            String symbol = tickerSearchField.getText();
+            
+            if((symbol == null) || (symbol.length() != 4)) {
+                    throw new NoDataException("Invalid Symbol");
+                } // end if
+            
+                Stock stock = StockFetcher.getStockData(symbol);
+                String price = Double.toString(stock.getCurrentPrice());
+                String volume = Integer.toString(stock.getVolume());
+                String fiftyTwoWeekHigh = Double.toString(stock.getFiftyTwoWeekHigh());
+                String fiftyTwoWeekLow = Double.toString(stock.getFiftyTwoWeekLow());
         
-        newPriceField.setText(price);
-        newSymbolField.setText(stock.getTickerSymbol());
-        newVolumeField.setText(volume);
-        newYearHighField.setText(fiftyTwoWeekHigh);
-        newYearLowField.setText(fiftyTwoWeekLow);
+                newPriceField.setText(price);
+                newSymbolField.setText(stock.getTickerSymbol());
+                newVolumeField.setText(volume);
+                newYearHighField.setText(fiftyTwoWeekHigh);
+                newYearLowField.setText(fiftyTwoWeekLow);
+                
+        } catch(NoDataException e) {
+
+                JOptionPane.showConfirmDialog(this, e.getMessage(), "Unable to Search", 
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    
+          } // end try catch
+    }
+    
+
+    private void tickerSearchFieldMouseClicked(java.awt.event.MouseEvent evt) {                                               
+        
+	/**
+          * On mouseclick in tickerSearchField, remove example text and change font to plain.
+          */
+        tickerSearchField.setText("");
+        tickerSearchField.setFont(new Font("Tahoma", Font.PLAIN, 11));
+        
     }                                            
 
     private void addStockButtonActionPerformed(java.awt.event.ActionEvent evt) {
-        try {
+
+	/** Checks value entered is not null, and equal to four digits. 
+	  * Catch requires user to enter new value before search is executed.
+	  * Adds symbol value as an element in the list
+	  */
+        
+	try {
                 String symbol = newSymbolField.getText();
                                 
-                if((symbol == null) || (symbol.length() == 0)) {
-                    throw new NoDataException("Search for Symbol prior to Adding");
+                if((symbol == null) || (symbol.length() != 4)) {
+                    throw new NoDataException("Invalid Symbol");
                 } // end if
                 
                 Stock stock = StockFetcher.getStockData(symbol);
                 portfolio.addStock(stock);
+                
+                DefaultListModel dlm = new DefaultListModel();
+                dlm.addElement(symbol);
+                stockList.setModel(dlm);
+                
+
             } catch(NoDataException e) {
 
                 JOptionPane.showConfirmDialog(this, e.getMessage(), "Unable to Add Stock", 
                         JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE);
                     
               } // end try catch
+        
+    }
+
+    private void stockListMouseClicked(java.awt.event.MouseEvent evt) {                                       
+
+	/**
+          * On mouseclick in stockList, query selected symbol and parse data to text fields.
+          */
+        
+        String symbol = (String)stockList.getSelectedValue();
+        
+        Stock stock = StockFetcher.getStockData(symbol);
+        String price = Double.toString(stock.getCurrentPrice());
+        String volume = Integer.toString(stock.getVolume());
+        String fiftyTwoWeekHigh = Double.toString(stock.getFiftyTwoWeekHigh());
+        String fiftyTwoWeekLow = Double.toString(stock.getFiftyTwoWeekLow());
+        
+        priceField.setText(price);
+        symbolField.setText(stock.getTickerSymbol());
+        volumeField.setText(volume);
+        yearHighField.setText(fiftyTwoWeekHigh);
+        yearLowField.setText(fiftyTwoWeekLow);
         
     }                                              
 
@@ -414,6 +492,5 @@ public class StockMainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel yearHighLabel;
     private javax.swing.JTextField yearLowField;
     private javax.swing.JLabel yearLowLabel;
-    // End of variables declaration
     // End of variables declaration
 }

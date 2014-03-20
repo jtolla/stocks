@@ -11,6 +11,9 @@ public class Portfolio {
     private Stock stock;
     private String portfolioName;
    
+    public Portfolio(){
+    
+    };
 
     public Portfolio(String portfolioName) {
         this.portfolioName = portfolioName;
