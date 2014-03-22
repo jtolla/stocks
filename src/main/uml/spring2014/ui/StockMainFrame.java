@@ -21,7 +21,7 @@ public class StockMainFrame extends javax.swing.JFrame {
      */
     public StockMainFrame() {
         initComponents();
-        this.setSize(400,550);
+        this.setSize(450,550);
         this.setTitle("Stock Market Portfolio System");
         portNameField.setText(portfolio.getPortfolioName());
     }
@@ -32,10 +32,11 @@ public class StockMainFrame extends javax.swing.JFrame {
      */
     private void initComponents() {
 
-        stockPanel = new javax.swing.JPanel();
+	stockPanel = new javax.swing.JPanel();
         portNameField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        stockList = new javax.swing.JList();
+	listModel = new DefaultListModel();
+        stockList = new javax.swing.JList(listModel);
         searchButton = new javax.swing.JButton();
         tickerSearchField = new javax.swing.JTextField();
         symbolLabel = new javax.swing.JLabel();
@@ -65,13 +66,13 @@ public class StockMainFrame extends javax.swing.JFrame {
         clearButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(500, 500));
+        setPreferredSize(new java.awt.Dimension(400, 500));
 
         stockPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Stock Information", 2, 1));
 
         portNameField.setFocusable(false);
-
-        stockList.setBorder(javax.swing.BorderFactory.createTitledBorder("Your Stocks:"));
+	
+	stockList.setBorder(javax.swing.BorderFactory.createTitledBorder("Stocks:"));
         stockList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         stockList.setToolTipText("");
         stockList.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -302,17 +303,17 @@ public class StockMainFrame extends javax.swing.JFrame {
 
         pack();
     }
-
+    
+    /** Closes application */
     private void exitButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                            
         
-	/** Closes application */
 	this.dispose();
     }                                           
 
     
+    /** Clears all text fields, does not clear stockList */    
     private void clearButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                             
         
-	/** Clears all text fields, does not clear stockList */
         newPriceField.setText("");
         newSymbolField.setText("");
         newVolumeField.setText("");
@@ -327,12 +328,13 @@ public class StockMainFrame extends javax.swing.JFrame {
         
     }                                            
 
+    /** Checks value entered is not null, and equal to four digits. 
+      * Catch requires user to enter new value before search is executed.
+      * Sends symbol to StockFetcher to retrieve data and parse to text fields.
+      */
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {                                             
         
-	/** Checks value entered is not null, and equal to four digits. 
-	  * Catch requires user to enter new value before search is executed.
-	  * Sends symbol to StockFetcher to retrieve data and parse to text fields.
-	  */
+	
   
         try {
                         
@@ -363,23 +365,22 @@ public class StockMainFrame extends javax.swing.JFrame {
     }
     
 
+    /**
+     * On mouseclick in tickerSearchField, remove example text and change font to plain.
+     */
     private void tickerSearchFieldMouseClicked(java.awt.event.MouseEvent evt) {                                               
         
-	/**
-          * On mouseclick in tickerSearchField, remove example text and change font to plain.
-          */
-        tickerSearchField.setText("");
+	tickerSearchField.setText("");
         tickerSearchField.setFont(new Font("Tahoma", Font.PLAIN, 11));
         
     }                                            
 
+    /** Checks value entered is not null, and equal to four digits. 
+      * Catch requires user to enter new value before search is executed.
+      * Adds symbol value as an element in the list
+      */
     private void addStockButtonActionPerformed(java.awt.event.ActionEvent evt) {
-
-	/** Checks value entered is not null, and equal to four digits. 
-	  * Catch requires user to enter new value before search is executed.
-	  * Adds symbol value as an element in the list
-	  */
-        
+	
 	try {
                 String symbol = newSymbolField.getText();
                                 
@@ -389,11 +390,7 @@ public class StockMainFrame extends javax.swing.JFrame {
                 
                 Stock stock = StockFetcher.getStockData(symbol);
                 portfolio.addStock(stock);
-                
-                DefaultListModel dlm = new DefaultListModel();
-                dlm.addElement(symbol);
-                stockList.setModel(dlm);
-                
+                listModel.addElement(symbol);             
 
             } catch(NoDataException e) {
 
@@ -404,12 +401,11 @@ public class StockMainFrame extends javax.swing.JFrame {
         
     }
 
+    /**
+     * On mouseclick in stockList, query selected symbol and parse data to text fields.
+     */
     private void stockListMouseClicked(java.awt.event.MouseEvent evt) {                                       
-
-	/**
-          * On mouseclick in stockList, query selected symbol and parse data to text fields.
-          */
-        
+  
         String symbol = (String)stockList.getSelectedValue();
         
         Stock stock = StockFetcher.getStockData(symbol);
@@ -431,10 +427,7 @@ public class StockMainFrame extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+        
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -451,8 +444,7 @@ public class StockMainFrame extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(StockMainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -492,5 +484,6 @@ public class StockMainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel yearHighLabel;
     private javax.swing.JTextField yearLowField;
     private javax.swing.JLabel yearLowLabel;
+    private DefaultListModel listModel;
     // End of variables declaration
 }
