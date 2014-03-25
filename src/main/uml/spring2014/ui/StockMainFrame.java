@@ -9,8 +9,10 @@ import uml.spring2014.StockFetcher;
 import uml.spring2014.exceptions.*;
 
 /**
+ * This frame will add or remove stocks from a users portfolio. 
+ * Users can search ticker symbols for data about a stock.
  *
- * @author Sara
+ * @author Sara Gerstung
  */
 public class StockMainFrame extends javax.swing.JFrame {
 
@@ -311,7 +313,7 @@ public class StockMainFrame extends javax.swing.JFrame {
     }                                           
 
     
-    /** Clears all text fields, does not clear stockList */    
+    /** Clears all text fields, does not clear stockList if items are present. */    
     private void clearButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                             
         
         newPriceField.setText("");
@@ -328,14 +330,14 @@ public class StockMainFrame extends javax.swing.JFrame {
         
     }                                            
 
-    /** Checks value entered is not null, and equal to four digits. 
+    /** Checks value entered is not null and equal to four digits. 
       * Catch requires user to enter new value before search is executed.
       * Sends symbol to StockFetcher to retrieve data and parse to text fields.
+      * 
+      * @throws NoDataException
       */
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {                                             
         
-	
-  
         try {
                         
             String symbol = tickerSearchField.getText();
@@ -378,6 +380,8 @@ public class StockMainFrame extends javax.swing.JFrame {
     /** Checks value entered is not null, and equal to four digits. 
       * Catch requires user to enter new value before search is executed.
       * Adds symbol value as an element in the list
+      * 
+      * @throws NoDataException
       */
     private void addStockButtonActionPerformed(java.awt.event.ActionEvent evt) {
 	
