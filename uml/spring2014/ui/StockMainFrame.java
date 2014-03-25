@@ -1,7 +1,14 @@
 package uml.spring2014.ui;
 
-import uml.spring2014.exceptions.*;
-import javax.swing.JOptionPane;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+
+import uml.spring2014.DatabaseConnect;
+import uml.spring2014.DatabaseQueries;
+import uml.spring2014.StockTable;
+import uml.spring2014.beans.StockEntity;
+
 
 /**
  *
@@ -9,9 +16,11 @@ import javax.swing.JOptionPane;
  */
 public class StockMainFrame extends javax.swing.JFrame {
 
+
     /**
      * Creates new form StockMainFrame
      */
+	
     public StockMainFrame() {
         initComponents();
     }
@@ -145,11 +154,34 @@ public class StockMainFrame extends javax.swing.JFrame {
     private void addStockButtonActionPerformed(java.awt.event.ActionEvent evt) {                                               
         return;
     }                                              
-
+  
     /**
      * @param args the command line arguments
+     * @throws SQLException 
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) throws SQLException {
+    	/*
+    	String[]Stocks = new String[ DatabaseInit.getListOfStocks("select * from stock order by idstock").length];
+    	Stocks = DatabaseInit.getListOfStocks("select * from stock order by idstock");
+    	for(String stock : Stocks)
+    	{
+    	System.out.println("test count" + stock);
+    	}*/
+    	//DatabaseQueries.getStocks("INSERT INTO stock (stockSymbol) VALUES ('rtyrtyu')");
+    	DatabaseQueries.getStocks("SELECT * FROM stock");
+    
+    	int stockid = 2;
+    	StockEntity bean = StockTable.getRow(stockid);
+    	if (bean == null){
+    		System.err.println("No rows were found.");
+    	}else{
+    		System.out.println("Stock ID is " + bean.getStockId());
+    		System.out.println("Stock Symbol is " + bean.getstockSymbol());
+    	}
+    	//String MyQuery2 = DatabaseInit.connect("select * from stock ");
+    	
+    	//System.out.println(rs.toString());
+    	
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
