@@ -170,7 +170,7 @@ public class StockMainFrame extends javax.swing.JFrame {
     	//DatabaseQueries.getStocks("INSERT INTO stock (stockSymbol) VALUES ('rtyrtyu')");
     	DatabaseQueries.getStocks("SELECT * FROM stock");
     
-    	int stockid = 2;
+    	int stockid = 18;
     	StockEntity bean = StockTable.getRow(stockid);
     	if (bean == null){
     		System.err.println("No rows were found.");
@@ -178,6 +178,14 @@ public class StockMainFrame extends javax.swing.JFrame {
     		System.out.println("Stock ID is " + bean.getStockId());
     		System.out.println("Stock Symbol is " + bean.getstockSymbol());
     	}
+    	String stockTest = "Caradigm4";
+    	bean.setStockSymbol(stockTest);
+    	
+    	boolean result = StockTable.insert(bean);
+    	if (result){
+    		System.out.println("New row with primary key " + bean.getStockId() + " Was inserted" + " with name of " + bean.getstockSymbol() );
+    	}
+    	
     	//String MyQuery2 = DatabaseInit.connect("select * from stock ");
     	
     	//System.out.println(rs.toString());

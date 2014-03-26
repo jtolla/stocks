@@ -20,7 +20,7 @@ public void setStockId(int stockId) {
 public String getstockSymbol() {
 	return stockSymbol;
 }
-public void setStockTicker(String stockSymbol) {
+public void setStockSymbol(String stockSymbol) {
 	this.stockSymbol = stockSymbol;
 }
 
