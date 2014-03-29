@@ -37,8 +37,7 @@ public class StockMainFrame extends javax.swing.JFrame {
 	stockPanel = new javax.swing.JPanel();
         portNameField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-	listModel = new DefaultListModel();
-        stockList = new javax.swing.JList(listModel);
+        stockList = new javax.swing.JList();
         searchButton = new javax.swing.JButton();
         tickerSearchField = new javax.swing.JTextField();
         symbolLabel = new javax.swing.JLabel();
@@ -64,17 +63,18 @@ public class StockMainFrame extends javax.swing.JFrame {
         newYearLowField = new javax.swing.JTextField();
         addStockButton = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
+        removeStockButton = new javax.swing.JButton();
         exitButton2 = new javax.swing.JButton();
         clearButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(400, 500));
+        setPreferredSize(new java.awt.Dimension(500, 500));
 
         stockPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Stock Information", 2, 1));
 
         portNameField.setFocusable(false);
-	
-	stockList.setBorder(javax.swing.BorderFactory.createTitledBorder("Stocks:"));
+
+        stockList.setBorder(javax.swing.BorderFactory.createTitledBorder("Your Stocks:"));
         stockList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         stockList.setToolTipText("");
         stockList.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -142,6 +142,13 @@ public class StockMainFrame extends javax.swing.JFrame {
             }
         });
 
+        removeStockButton.setText("Remove Stock");
+        removeStockButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeStockButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout stockPanelLayout = new javax.swing.GroupLayout(stockPanel);
         stockPanel.setLayout(stockPanelLayout);
         stockPanelLayout.setHorizontalGroup(
@@ -150,6 +157,12 @@ public class StockMainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(stockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(stockPanelLayout.createSequentialGroup()
+                        .addComponent(jSeparator1)
+                        .addContainerGap())
+                    .addGroup(stockPanelLayout.createSequentialGroup()
+                        .addComponent(searchLabel)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(stockPanelLayout.createSequentialGroup()
                         .addGroup(stockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(stockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(searchButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
@@ -157,38 +170,36 @@ public class StockMainFrame extends javax.swing.JFrame {
                             .addComponent(addStockButton)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(stockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(yearLowLabel)
-                            .addComponent(yearHighLabel)
-                            .addComponent(volumeLabel)
-                            .addComponent(priceLabel)
-                            .addComponent(symbolLabel)
-                            .addComponent(newSymbolLabel)
-                            .addComponent(newPriceLabel)
-                            .addComponent(newVolumeLabel)
-                            .addComponent(newYearHighLabel)
-                            .addComponent(newYearLowLabel)
-                            .addComponent(portNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(stockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(symbolField, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(priceField, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(volumeField, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(yearHighField, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(yearLowField, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(newSymbolField, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(newPriceField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(newVolumeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(newYearHighField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(newYearLowField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(stockPanelLayout.createSequentialGroup()
                         .addGroup(stockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSeparator1)
                             .addGroup(stockPanelLayout.createSequentialGroup()
-                                .addComponent(searchLabel)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())))
+                                .addGroup(stockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                    .addComponent(yearLowLabel)
+                                    .addComponent(yearHighLabel)
+                                    .addComponent(volumeLabel)
+                                    .addComponent(priceLabel)
+                                    .addComponent(symbolLabel)
+                                    .addComponent(newSymbolLabel)
+                                    .addComponent(newPriceLabel)
+                                    .addComponent(newVolumeLabel)
+                                    .addComponent(newYearHighLabel)
+                                    .addComponent(newYearLowLabel)
+                                    .addComponent(portNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(stockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(stockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                        .addComponent(symbolField, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(priceField, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(volumeField, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(yearHighField, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(yearLowField, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(newYearLowField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(newYearHighField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(newVolumeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(newPriceField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(newSymbolField, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(stockPanelLayout.createSequentialGroup()
+                                .addComponent(removeStockButton, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+                                .addContainerGap())))))
         );
 
         stockPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {newPriceField, newSymbolField, newVolumeField, newYearHighField, newYearLowField, priceField, symbolField, volumeField, yearHighField, yearLowField});
@@ -222,15 +233,22 @@ public class StockMainFrame extends javax.swing.JFrame {
                         .addGroup(stockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                             .addComponent(yearLowLabel)
                             .addComponent(yearLowField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(24, 24, 24))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, stockPanelLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(15, 15, 15)))
+                        .addGap(18, 18, 18)
+                        .addComponent(removeStockButton)
+                        .addGap(0, 43, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
+                .addGap(23, 23, 23)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(searchLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(stockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(stockPanelLayout.createSequentialGroup()
+                        .addComponent(searchLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tickerSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(searchButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(addStockButton))
                     .addGroup(stockPanelLayout.createSequentialGroup()
                         .addComponent(newSymbolLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -250,14 +268,8 @@ public class StockMainFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(newYearHighField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(newYearLowField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(stockPanelLayout.createSequentialGroup()
-                        .addComponent(tickerSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(searchButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(addStockButton)))
-                .addContainerGap(17, Short.MAX_VALUE))
+                        .addComponent(newYearLowField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
 
         stockPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {newPriceField, newPriceLabel, newSymbolField, newSymbolLabel, newVolumeField, newVolumeLabel, newYearHighField, newYearHighLabel, newYearLowField, newYearLowLabel});
@@ -283,24 +295,24 @@ public class StockMainFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 238, Short.MAX_VALUE)
+                    .addComponent(stockPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(clearButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(exitButton2))
-                    .addComponent(stockPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(exitButton2)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(stockPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(stockPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(exitButton2)
-                    .addComponent(clearButton2))
-                .addContainerGap(31, Short.MAX_VALUE))
+                    .addComponent(clearButton2)
+                    .addComponent(exitButton2))
+                .addContainerGap())
         );
 
         pack();
@@ -330,7 +342,8 @@ public class StockMainFrame extends javax.swing.JFrame {
         
     }                                            
 
-    /** Checks value entered is not null and equal to four digits. 
+     /** 
+      * Checks value entered is not null and equal to four digits. 
       * Catch requires user to enter new value before search is executed.
       * Sends symbol to StockFetcher to retrieve data and parse to text fields.
       * 
@@ -377,9 +390,10 @@ public class StockMainFrame extends javax.swing.JFrame {
         
     }                                            
 
-    /** Checks value entered is not null, and equal to four digits. 
+     /** 
+      * Adds symbol value as an element in stockList and Portfolio array.
+      * Checks value entered is not null, and equal to four digits. 
       * Catch requires user to enter new value before search is executed.
-      * Adds symbol value as an element in the list
       * 
       * @throws NoDataException
       */
@@ -406,6 +420,18 @@ public class StockMainFrame extends javax.swing.JFrame {
     }
 
     /**
+     * Gets selected index from stockList and removes element from list and Portfolio array.
+     */
+    private void removeStockButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        
+        String symbol = (String)stockList.getSelectedValue();
+        Stock stock = StockFetcher.getStockData(symbol);
+        
+        portfolio.removeStock(stock);
+        listModel.remove(getSelectedIndex());
+    }
+
+    /**
      * On mouseclick in stockList, query selected symbol and parse data to text fields.
      */
     private void stockListMouseClicked(java.awt.event.MouseEvent evt) {                                       
@@ -426,40 +452,11 @@ public class StockMainFrame extends javax.swing.JFrame {
         
     }                                              
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(StockMainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(StockMainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(StockMainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(StockMainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new StockMainFrame().setVisible(true);
-            }
-        });
-    }
     // Variables declaration - do not modify
     private javax.swing.JButton addStockButton;
     private javax.swing.JButton clearButton2;
     private javax.swing.JButton exitButton2;
+    private javax.swing.JButton removeStockButton;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField newPriceField;
