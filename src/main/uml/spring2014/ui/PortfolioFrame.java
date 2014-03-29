@@ -1,6 +1,7 @@
 package uml.spring2014.ui;
 
 import uml.spring2014.exceptions.NoDataException;
+import uml.spring2014.*;
 import javax.swing.*;
 
 /**
@@ -142,7 +143,7 @@ public class PortfolioFrame extends javax.swing.JFrame {
      */
     private void newPortButtonActionPerformed(java.awt.event.ActionEvent evt) {                                              
         
-        PortStubsSara newPortfolio = new PortStubsSara();
+        Portfolio newPortfolio = new Portfolio();
         
         try {
                 String portfolioName = newPortField.getText();
