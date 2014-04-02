@@ -428,7 +428,7 @@ public class StockMainFrame extends javax.swing.JFrame {
         Stock stock = StockFetcher.getStockData(symbol);
         
         portfolio.removeStock(stock);
-        listModel.remove(getSelectedIndex());
+       // listModel.remove(getSelectedIndex());
     }
 
     /**
