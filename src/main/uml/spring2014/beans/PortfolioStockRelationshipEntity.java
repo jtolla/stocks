@@ -1,9 +1,9 @@
 package uml.spring2014.beans;
-
+/**
+ * @author Andrew Conniff
+ */
 public class PortfolioStockRelationshipEntity {
-	/*
-	 * Parameters
-	 */
+
 	private int relationshipId;
 	private int stockId;
 	private String stockSymbol;

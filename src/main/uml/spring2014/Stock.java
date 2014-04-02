@@ -44,6 +44,9 @@ public class Stock {
     public Double getFiftyTwoWeekLow() { return fiftyTwoWeekLow; }
     
     public static void addStockToPortfolio(String stock, String portfolio) throws SQLException {
+    	/**
+    	 * @author Andrew Conniff
+    	 */
     	int portfolioId = 0;
     	int stockId = 0;
     	String stockSymbol = null;

@@ -46,34 +46,39 @@ public class Portfolio {
 		
 	}
 
+	/** inserts the new portfolio name into the portfolio table 
+	 * @author Andrew */
 	public static void setPortfolio(String portfolioName) {
-		
+
 		PortfolioEntity bean = new PortfolioEntity();
     	bean.setPortfolioName(portfolioName);
     	boolean result = false;
 		try {
 			result = PortfolioTable.insert(bean);
 		} catch (SQLException e) {
-			//Add correct error message here
+			/** Add correct error message here to the UI*/
 			e.printStackTrace();
 		}
     	if (result){
+    		/** Remove this output and send appropriate Success! message*/
     		System.out.println("The new value for Portfolio name " + bean.getPortfolioName() + " Was inserted");
     	}
 		
 	}
+	/** deletes everything for a portfolio - keeps the stocks in the stock table
+	 * @author Andrew */
 	public static void deletePortfolio(String portfolioName){
 		
 		 String bean = portfolioName;
 	    	
-		    /* Deletes the name of the portfolio from the portfolio table */
+		    /** Deletes the name of the portfolio from the portfolio table */
 	    	if (PortfolioTable.delete(bean)) {
 	    		System.out.println("Success deleting " + bean);
 	    	} else {
 	    		System.out.println("The Portfolio " + " ' " + bean + " ' " + " was not deleted.");
 	    	}
 	    	
-	    	/* Deletes the portfolio stock relationships from the relationship table */
+	    	/** Deletes the portfolio stock relationships from the relationship table */
 	    	if (PortfolioStockRelationshipTable.deletePortfolioAndContents(bean)) {
 	    		System.out.println("Success deleting " + bean + " contents");
 	    	} else {

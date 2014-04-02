@@ -1,5 +1,7 @@
 package uml.spring2014;
-
+/**
+ * @author Andrew Conniff
+ */
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,15 +11,8 @@ import java.sql.Statement;
 import uml.spring2014.beans.PortfolioEntity;
 
 
-/*
- * This is the Adminmanager table
- * 
- */
 public class PortfolioTable {
 	
-
-	
-
 	public static void displayData (ResultSet rs) throws SQLException
 	{
 		while (rs.next()){
@@ -92,9 +87,7 @@ public static boolean insert(PortfolioEntity bean) throws SQLException
 	return true;
 	
 }
-/*
- * next here
- */
+/** This method deletes from the portfolio table*/
 public static boolean delete(String portfolioName){
 	
 	

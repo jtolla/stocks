@@ -1,5 +1,7 @@
 package uml.spring2014;
-
+/**
+ * @author Andrew Conniff
+ */
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,13 +12,15 @@ import uml.spring2014.beans.PortfolioStockRelationshipEntity;
 
 public class PortfolioStockRelationshipTable {
 
-	
+/** 
+ * !Important - send the query "SELECT * FROM  portfolioStockRelationship */	
 
 	public static void displayData (ResultSet rs) throws SQLException
 	{
 		while (rs.next()){
-			int relId = rs.getInt("relationshipId");
-			System.out.println(relId);
+			String stockSymbol = rs.getString("stockSymbol");
+			/** send list to the array list for the UI instead and remove the following line */
+			System.out.println(stockSymbol);
 		}
 		
 	}
@@ -24,12 +28,10 @@ public class PortfolioStockRelationshipTable {
 
 public static PortfolioStockRelationshipEntity getRow(int relationshipId) throws SQLException {
 	
-	/*
-	 * returns a single row from
-	 */
+	/**  returns a single row from the relationship table when you know the relationship ID - not used in UI */
 	String sql = "SELECT * FROM portfoliostockrelationship WHERE relationshipId = ?";
 	ResultSet rs = null;
-	/* Try with resources */
+	/** Try with resources */
 	try (
 			Connection conn = DatabaseConnect.getConnection();
 			PreparedStatement stmt = conn.prepareStatement(sql);
@@ -59,23 +61,23 @@ public static PortfolioStockRelationshipEntity getRow(int relationshipId) throws
 	}
 	
 }
-	
+	/** 
+	 * !Important - This is how we Insert a stock into the relationship table
+	 * 
+	 **/
 public static boolean insert ( PortfolioStockRelationshipEntity bean) throws SQLException
 {
 	String sql = "INSERT INTO  portfolioStockRelationship (idstock, stockSymbol, portfolioId, portfolioName) " + "VALUES (?, ?, ?, ?)";
 	
-	/*
-	 * ResultSet Keys holds the system generated key value for the new row in this table
-	 */
+	/** ResultSet Keys holds the system generated key value for the new row in this table*/
 	ResultSet keys = null;
-	/* Try with resources */
+	/** Try with resources */
 	try (
 			Connection conn = DatabaseConnect.getConnection();
 			PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			){
-		/*
-		 * assign the variables ? to the SQL string from left to right using stmt.set<data type>(?, bean.get<data>) format.
-		 */
+		/** assign the variables ? to the SQL string from left to 
+		 * right using stmt.set<data type>(?, bean.get<data>) format.*/
 		stmt.setInt(1, bean.getStockId());
 		stmt.setString(2, bean.getStockSymbol());
 		stmt.setInt(3, bean.getPortfolioId());
@@ -99,11 +101,11 @@ public static boolean insert ( PortfolioStockRelationshipEntity bean) throws SQL
 		if (keys != null) keys.close();
 	}
 	return true;
-	
 }
-/*
- * next here
- */
+/**
+ *  !Important - this is how we delete 
+ *  a stock from a portfolio   */
+
 public static boolean deleteStockFromPortfolio(String stockSymbol){
 	String sql = "DELETE from portfolioStockRelationship WHERE stockSymbol = ?";
 	
@@ -126,8 +128,12 @@ public static boolean deleteStockFromPortfolio(String stockSymbol){
 		return false;
 	}
 	
-	
 }
+/**
+ * !Important -
+ *  this is how we delete an entire portfolio 
+ *  and its stocks from the relationship table */
+
 public static boolean deletePortfolioAndContents(String portfolioName){
 	String sql = "DELETE from portfolioStockRelationship WHERE portfolioName = ?";
 	

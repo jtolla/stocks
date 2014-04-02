@@ -1,9 +1,7 @@
 package uml.spring2014.beans;
-
-/*
-		This is the "Admin" table representing the rows of the stock table
-		*/
-
+/**
+ * @author Andrew Conniff
+ */
 
 public class StockEntity {
 	

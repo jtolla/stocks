@@ -1,7 +1,7 @@
 package uml.spring2014;
-/*
-This is the "AdminManager" table 
-*/
+/**
+ * @author Andrew Conniff
+ */
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,19 +13,18 @@ import uml.spring2014.beans.StockEntity;
 
 public class StockTable {
 	
-
+/** returns list of all stocks if the query is correct 
+ * Not used for display to  sending to the array list*/
 	public static void displayData (ResultSet rs) throws SQLException
 	{
 		while (rs.next()){
 			String stockTickers = rs.getString("stockSymbol");
 			System.out.println(stockTickers);
 		}
-		
 	}
 	
-	
-	/*
-	 * returns a single row
+	/**
+	 * returns a single row from the stock table
 	 */
 public static StockEntity getRow(String stockSymbol) throws SQLException {
 	
@@ -59,12 +58,12 @@ public static StockEntity getRow(String stockSymbol) throws SQLException {
 	}
 	
 }
-	
+	/** adds a stockSymbol to the stock table */
 public static boolean insert (StockEntity bean) throws SQLException
 {
 	String sql = "INSERT INTO stock (stockSymbol) " + "VALUES (?)";
 	ResultSet keys = null;
-	/* Try with resources */
+	/** Try with resources */
 	try (
 			Connection conn = DatabaseConnect.getConnection();
 			PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -91,9 +90,11 @@ public static boolean insert (StockEntity bean) throws SQLException
 	return true;
 	
 }
-/*
- * next here
- */
+
+/** Future use - we would use this to clean 
+ * this table up if the stock does not exist
+ *  in the relationship table (does not belong to a portfolio)
+ *  */
 public static boolean delete(String stockSymbol){
 	String sql = "DELETE from stock WHERE stockSymbol = ?";
 	

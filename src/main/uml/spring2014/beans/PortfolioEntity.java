@@ -1,8 +1,6 @@
 package uml.spring2014.beans;
-
-/*
- * Admin class for portfolio table
- * 
+/**
+ * @author Andrew Conniff
  */
 
 public class PortfolioEntity {
