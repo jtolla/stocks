@@ -28,22 +28,22 @@ public class PortfolioTable {
 	}
 	
 
-public static PortfolioEntity getRow(int portfolioId) throws SQLException {
+public static PortfolioEntity getRow(String portfolioName) throws SQLException {
 	
-	String sql = "SELECT * FROM portfolio WHERE portfolioId = ?";
+	String sql = "SELECT * FROM portfolio WHERE portfolioName = ?";
 	ResultSet rs = null;
 	/* Try with resources */
 	try (
 			Connection conn = DatabaseConnect.getConnection();
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			){
-		stmt.setInt(1, portfolioId);
+		stmt.setString(1, portfolioName);
 		rs = stmt.executeQuery();
 		
 		if (rs.next()){
 			PortfolioEntity bean = new PortfolioEntity();
-			bean.setPortfolioId(portfolioId);
-			bean.setPortfolioName(rs.getString("portfolioName"));
+			bean.setPortfolioName(portfolioName);
+			bean.setPortfolioId(rs.getInt("portfolioId"));
 			return bean;
 		} else {
 			
