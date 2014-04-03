@@ -1,7 +1,12 @@
 package uml.spring2014.ui;
 
+import java.sql.SQLException;
+
+import uml.spring2014.beans.PortfolioEntity;
+import uml.spring2014.beans.StockEntity;
 import uml.spring2014.exceptions.NoDataException;
 import uml.spring2014.*;
+
 import javax.swing.*;
 
 /**
@@ -217,8 +222,77 @@ public class PortfolioFrame extends javax.swing.JFrame {
 
     /**
      * @param args the command line arguments
+     * @throws SQLException 
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) throws SQLException {
+    	
+    
+    /*
+     * Returns list of stocks from stocks
+     */
+        DatabaseQueries.getStocks("SELECT * FROM stock");
+    	DatabaseQueries.getPortfolios("SELECT * FROM portfolio");
+
+    	
+    	//Portfolio.setPortfolio("XAML");
+    	Portfolio.deletePortfolio("XAML");
+    	/*
+       
+    	  */
+    	//this block deletes a stock from stock
+    	/*
+    	String stockSymbol = "Caradigm7";
+    	
+    	if (StockTable.delete(stockSymbol)) {
+    		System.out.println("Success deleting " + stockSymbol);
+    	} else {
+    		System.out.println("nothing deleted " + stockSymbol);
+    	}
+    	    
+    	   Get row
+    	int stockid = 5;
+    	StockEntity bean = StockTable.getRow(stockid);
+    	if (bean == null){
+    		System.err.println("No rows were found.");
+    	}else{
+    		System.out.println("Stock ID is " + bean.getStockId());
+    		System.out.println("Stock Symbol is " + bean.getstockSymbol());
+    	}
+    	
+    	//adds data
+    	int stockid = 5;
+    	StockEntity bean = StockTable.getRow(stockid);
+    	String stockTest = "huh21";
+    	bean.setStockSymbol(stockTest);
+
+    	boolean result = StockTable.insert(bean);
+    	if (result){
+    		System.out.println("New row with primary key " + bean.getStockId() + " Was inserted" + " with name of " + bean.getstockSymbol() );
+    	}
+    */
+    	
+    	/*
+    	int portfolioId = 1;
+    	PortfolioEntity pBean = PortfolioTable.getRow(portfolioId );
+
+    	if (pBean== null){
+    		System.err.println("No rows were found.");
+    	}else{
+    		System.out.println("Portfolio ID is " +  pBean.getPortfolioId());
+    		System.out.println("Portfolio name is " + pBean.getPortfolioName());
+    	}
+      	String nameTest = "PTest1";
+        pBean.setPortfolioName(nameTest); 
+   
+    	
+    	boolean resultPortfolioAdd = PortfolioTable.insert(pBean);
+    	if (resultPortfolioAdd){
+    		System.out.println("New row with primary key " +  pBean.getPortfolioId() + "New row with name value of " + pBean.getPortfolioName() + " Was inserted" );
+    	}
+    	*/
+    	
+    	
+    	
         /* Set the Nimbus look and feel */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
