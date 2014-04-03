@@ -355,7 +355,7 @@ public class StockMainFrame extends javax.swing.JFrame {
                         
             String symbol = tickerSearchField.getText();
             
-            if((symbol == null) || (symbol.length() != 4)) {
+            if((symbol == null) || (symbol.length() == 0)) {
                     throw new NoDataException("Invalid Symbol");
                 } // end if
             
@@ -402,7 +402,7 @@ public class StockMainFrame extends javax.swing.JFrame {
 	try {
                 String symbol = newSymbolField.getText();
                                 
-                if((symbol == null) || (symbol.length() != 4)) {
+                if((symbol == null) || (symbol.length() == 0)) {
                     throw new NoDataException("Invalid Symbol");
                 } // end if
                 
@@ -428,7 +428,7 @@ public class StockMainFrame extends javax.swing.JFrame {
         Stock stock = StockFetcher.getStockData(symbol);
         
         portfolio.removeStock(stock);
-       // listModel.remove(getSelectedIndex());
+        listModel.remove(stockList.getSelectedIndex());
     }
 
     /**

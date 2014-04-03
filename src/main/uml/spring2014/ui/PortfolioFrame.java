@@ -14,7 +14,9 @@ import javax.swing.*;
  * @author Sara Gerstung
  */
 public class PortfolioFrame extends javax.swing.JFrame {
-    
+
+    Portfolio portfolio = new Portfolio();
+
     /**
      * Creates new form PortfolioFrame
      */
@@ -143,16 +145,13 @@ public class PortfolioFrame extends javax.swing.JFrame {
     }
     
     /**
-     * Creates new instance of portfolio. If newPortField is blank an error
-     * shown and creation is not executed.
+     * If newPortField is blank an error shown and creation is not executed.
      */
-    private void newPortButtonActionPerformed(java.awt.event.ActionEvent evt) {                                              
-        
-        Portfolio newPortfolio = new Portfolio();
+    private void newPortButtonActionPerformed(java.awt.event.ActionEvent evt) {
         
         try {
                 String portfolioName = newPortField.getText();
-                newPortfolio.setName(portfolioName);
+                portfolio.setPortfolio(portfolioName);
 
                 if((portfolioName == null) || (portfolioName.length() == 0)) {
                     throw new NoDataException("Please Enter a Portfolio Name");
@@ -211,7 +210,7 @@ public class PortfolioFrame extends javax.swing.JFrame {
     
     /**
      * Clears all text fields on form when Clear button is selected.
-     * @param 
+     *  
      */
     private void clearFormButtonActionPerformed(java.awt.event.ActionEvent evt) {
         
