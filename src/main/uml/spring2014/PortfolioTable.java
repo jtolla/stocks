@@ -17,6 +17,7 @@ public class PortfolioTable {
 	{
 		while (rs.next()){
 			String portfolioNames = rs.getString("portfolioName");
+			/** replace this with code to populate the UI*/
 			System.out.println(portfolioNames);
 		}
 		

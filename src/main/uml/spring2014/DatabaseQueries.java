@@ -56,19 +56,19 @@ public static ResultSet getPortfolios(String Query)
 public static ResultSet getPortfolioStockRelationships(String Query)
 
 {
-	/**Try with resources*/
+	/**Try with resources  this sets up the connection string for the result set in the $Table class*/
 try (
 		Connection conn = DatabaseConnect.getConnection();
 		java.sql.Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		ResultSet rs = stmt.executeQuery(Query);
 		){
-	PortfolioStockRelationshipTable.displayData(rs);
-
+	//PortfolioStockRelationshipTable.displayData(rs);
 } catch (SQLException e) {
 	e.printStackTrace();
 }
+return rs;
 
-return rs; 
+
 }
 
 }

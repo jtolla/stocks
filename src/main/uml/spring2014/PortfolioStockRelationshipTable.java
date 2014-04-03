@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import uml.spring2014.beans.PortfolioStockRelationshipEntity;
 
@@ -21,6 +22,7 @@ public class PortfolioStockRelationshipTable {
 			String stockSymbol = rs.getString("stockSymbol");
 			/** send list to the array list for the UI instead and remove the following line */
 			System.out.println(stockSymbol);
+			
 		}
 		
 	}
@@ -104,10 +106,10 @@ public static boolean insert ( PortfolioStockRelationshipEntity bean) throws SQL
 }
 /**
  *  !Important - this is how we delete 
- *  a stock from a portfolio   */
+ *  a stock from a portfolio  need stock and portfolio */
 
-public static boolean deleteStockFromPortfolio(String stockSymbol){
-	String sql = "DELETE from portfolioStockRelationship WHERE stockSymbol = ?";
+public static boolean deleteStockFromPortfolio(String stockSymbol, String portfolioName){
+	String sql = "DELETE from portfolioStockRelationship WHERE stockSymbol = ? AND portfolioName = ?";
 	
 	try (
 			Connection conn = DatabaseConnect.getConnection();
@@ -115,6 +117,7 @@ public static boolean deleteStockFromPortfolio(String stockSymbol){
 			){
 		
 		stmt.setString(1, stockSymbol);
+		stmt.setString(2, portfolioName);
 		int affected = stmt.executeUpdate();
 		
 		if (affected == 1 ){

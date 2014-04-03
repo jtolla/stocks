@@ -1,9 +1,11 @@
 package uml.spring2014;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import uml.spring2014.beans.PortfolioEntity;
+import uml.spring2014.beans.PortfolioStockRelationshipEntity;
 
 /**
  * @author jtolla
@@ -24,25 +26,50 @@ public class Portfolio {
     }
 
     public String getPortfolioName() {
+    	/**USE setPortfolio */ 
         return portfolioName;
     }
 
     public void addStock(Stock stock) {
-      stock = this.stock;
+    	/** take the stock and portfolio and create java beans to pass to SQL methods*/
+   	 stock = this.stock;
+   	 PortfolioStockRelationshipEntity bean = new PortfolioStockRelationshipEntity();
+   	 bean.setPortfolioName(portfolioName);
+   	 bean.setStockSymbol(stock.toString());
+   	 try {
+		PortfolioStockRelationshipTable.insert(bean);
+	} catch (SQLException e) {
+		/** add correct UI feedback here*/
+		e.printStackTrace();
+	}
+   	 
     }
 
     public void removeStock(Stock stock) {
+    	/** take the stock and portfolio and pass the strings */
     	 stock = this.stock;
+    	 PortfolioStockRelationshipTable.deleteStockFromPortfolio(stock.toString(), portfolioName);
     }
 
     public ArrayList<Stock> displayPortfolio() {
     	
+    	ResultSet rs;
         ArrayList<Stock> stocks = new ArrayList<Stock>();
+       rs = DatabaseQueries.getPortfolioStockRelationships("SELECT * FROM portfolioStockRelationships WHERE portfolioName = " + portfolioName);
+       try {
+		while (rs.next()){
+				Stock stockSymbol = (Stock) rs.getObject("stockSymbol");
+		    stocks.add(stockSymbol);
+		   }
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
         return stocks;
     }
 
 	public void setName(String portfolioName2) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub delete? 
 		
 	}
 
