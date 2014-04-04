@@ -1,6 +1,7 @@
 package uml.spring2014.ui;
 
 import java.awt.Font;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,7 +30,7 @@ public class StockMainFrame extends javax.swing.JFrame {
         this.portfolio = portfolio;
         portNameLabel.setText(portfolio.getPortfolioName());
         portNameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        
+        FillStockList();
     }
 
     /**
@@ -335,19 +336,14 @@ public class StockMainFrame extends javax.swing.JFrame {
     }
     
     private void FillStockList(){
-        try{
-            String sql = "select * from Portfolio";
-            pst = conn.prepareStatement(sql);
-            rs = pst.executeQuery();
-            
+        
+        DatabaseQueries.getStocks();
             while(rs.next()){
-                String stock = rs.getString("Stock");
+                String stock = rs.getString("stockSymbol");
                 stockList.setModel(listModel);
                 listModel.addElement(stock);
             }
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null, e);
-        }
+
     }
         
     /** Closes application */
@@ -458,11 +454,24 @@ public class StockMainFrame extends javax.swing.JFrame {
      */
     private void removeStockButtonActionPerformed(java.awt.event.ActionEvent evt) {
         
-        String symbol = (String)stockList.getSelectedValue();
-        Stock stock = StockFetcher.getStockData(symbol);
+        try{
+            String symbol = (String)stockList.getSelectedValue();
+            String portfolioName = portfolio.getPortfolioName();
+            
+            if(stockList.getSelectedIndex() == -1){
+                throw new NoDataException("Select Item to Remove");
+            }
+                
+            Portfolio.removeStockFromPortfolio(symbol, portfolioName);
+            listModel.remove(stockList.getSelectedIndex());
+            
+        } catch(NoDataException e) {
+
+                JOptionPane.showConfirmDialog(this, e.getMessage(), "Unable to Remove Stock", 
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    
+              } // end try catch
         
-        portfolio.removeStock(stock);
-        listModel.remove(stockList.getSelectedIndex());
     }
 
     /**
@@ -521,5 +530,6 @@ public class StockMainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel yearLowLabel;
     private Portfolio portfolio;
     private DefaultListModel listModel;
+    private ResultSet rs;
     // End of variables declaration
 }

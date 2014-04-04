@@ -1,5 +1,6 @@
 package uml.spring2014.ui;
 
+import java.sql.ResultSet;
 import javax.swing.*;
 import uml.spring2014.exceptions.NoDataException;
 import uml.spring2014.*;
@@ -17,6 +18,7 @@ public class PortfolioFrame extends javax.swing.JFrame {
     public PortfolioFrame() {
         initComponents();
         this.setTitle("Stock Market Portfolio System");
+        FillCombo();
     }
 
     /**
@@ -146,18 +148,12 @@ public class PortfolioFrame extends javax.swing.JFrame {
      * Query the Portfolio table for a list
      */
     private void FillCombo(){
-        try{
-            String sql = "select * from Portfolio";
-            pst = conn.prepareStatement(sql);
-            rs = pst.executeQuery();
-            
+        ResultSet newRs;
+        ;
             while(rs.next()){
-                String portfolio = rs.getString("Portfolio");
+                String portfolio = rs.getString("portfolioName");
                 portListCombo.addItem(portfolio);
             }
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null, e);
-        }
     }
     
     /**
@@ -273,7 +269,7 @@ public class PortfolioFrame extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify
     private javax.swing.JButton clearFormButton;
-    private javax.swing.JComboBox portListCombo;
+    public static javax.swing.JComboBox portListCombo;
     private javax.swing.JLabel existPortLabel;
     private javax.swing.JButton exitButton;
     private javax.swing.JButton newPortButton;
@@ -281,5 +277,6 @@ public class PortfolioFrame extends javax.swing.JFrame {
     private javax.swing.JLabel newPortLabel;
     private javax.swing.JButton openPortButton;
     private javax.swing.JPanel portfolioPanel;
+    private static ResultSet rs;
     // End of variables declaration
 }
