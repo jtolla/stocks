@@ -1,8 +1,11 @@
 package uml.spring2014.ui;
 
-import javax.swing.JOptionPane;
-import javax.swing.DefaultListModel;
 import java.awt.Font;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import uml.spring2014.Stock;
 import uml.spring2014.Portfolio;
 import uml.spring2014.StockFetcher;
@@ -16,16 +19,17 @@ import uml.spring2014.exceptions.*;
  */
 public class StockMainFrame extends javax.swing.JFrame {
 
-    Portfolio portfolio = new Portfolio();
-
     /**
      * Creates new form StockMainFrame
      */
-    public StockMainFrame() {
+    public StockMainFrame(Portfolio portfolio) {
         initComponents();
-        this.setSize(450,550);
+        this.setSize(450,600);
         this.setTitle("Stock Market Portfolio System");
-        portNameField.setText(portfolio.getPortfolioName());
+        this.portfolio = portfolio;
+        portNameLabel.setText(portfolio.getPortfolioName());
+        portNameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        
     }
 
     /**
@@ -35,7 +39,7 @@ public class StockMainFrame extends javax.swing.JFrame {
     private void initComponents() {
 
 	stockPanel = new javax.swing.JPanel();
-        portNameField = new javax.swing.JTextField();
+        portNameLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         stockList = new javax.swing.JList();
         searchButton = new javax.swing.JButton();
@@ -66,13 +70,14 @@ public class StockMainFrame extends javax.swing.JFrame {
         removeStockButton = new javax.swing.JButton();
         exitButton2 = new javax.swing.JButton();
         clearButton2 = new javax.swing.JButton();
+        portfolio = new Portfolio();
+        listModel = new DefaultListModel();
+        
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(500, 500));
 
         stockPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Stock Information", 2, 1));
-
-        portNameField.setFocusable(false);
 
         stockList.setBorder(javax.swing.BorderFactory.createTitledBorder("Your Stocks:"));
         stockList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
@@ -84,7 +89,7 @@ public class StockMainFrame extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(stockList);
-
+        
         searchButton.setText("Search");
         searchButton.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -142,7 +147,11 @@ public class StockMainFrame extends javax.swing.JFrame {
         addStockButton.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addStockButtonActionPerformed(evt);
+                try {
+                    addStockButtonActionPerformed(evt);
+                } catch (SQLException ex) {
+                    Logger.getLogger(StockMainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
 
@@ -188,7 +197,7 @@ public class StockMainFrame extends javax.swing.JFrame {
                                     .addComponent(newVolumeLabel)
                                     .addComponent(newYearHighLabel)
                                     .addComponent(newYearLowLabel)
-                                    .addComponent(portNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(portNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(stockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(stockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
@@ -215,7 +224,7 @@ public class StockMainFrame extends javax.swing.JFrame {
             stockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(stockPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(portNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(portNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(stockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(stockPanelLayout.createSequentialGroup()
@@ -294,7 +303,7 @@ public class StockMainFrame extends javax.swing.JFrame {
                 clearButton2ActionPerformed(evt);
             }
         });
-
+        
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -323,6 +332,22 @@ public class StockMainFrame extends javax.swing.JFrame {
         );
 
         pack();
+    }
+    
+    private void FillStockList(){
+        try{
+            String sql = "select * from Portfolio";
+            pst = conn.prepareStatement(sql);
+            rs = pst.executeQuery();
+            
+            while(rs.next()){
+                String stock = rs.getString("Stock");
+                stockList.setModel(listModel);
+                listModel.addElement(stock);
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
     }
         
     /** Closes application */
@@ -404,18 +429,20 @@ public class StockMainFrame extends javax.swing.JFrame {
       * 
       * @throws NoDataException
       */
-    private void addStockButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    private void addStockButtonActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {
 	
 	try {
+
                 String symbol = newSymbolField.getText();
+                String portfolioName = portfolio.getPortfolioName();
                                 
                 if((symbol == null) || (symbol.length() == 0)) {
                     throw new NoDataException("Invalid Symbol");
                 } // end if
                 
-                Stock stock = StockFetcher.getStockData(symbol);
-                portfolio.addStock(stock);
-                listModel.addElement(symbol);             
+                Portfolio.addStockToPortfolio(symbol, portfolioName);
+                stockList.setModel(listModel);
+                listModel.addElement(symbol);
 
             } catch(NoDataException e) {
 
@@ -476,7 +503,7 @@ public class StockMainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel newYearHighLabel;
     private javax.swing.JTextField newYearLowField;
     private javax.swing.JLabel newYearLowLabel;
-    private javax.swing.JTextField portNameField;
+    private javax.swing.JLabel portNameLabel;
     private javax.swing.JTextField priceField;
     private javax.swing.JLabel priceLabel;
     private javax.swing.JButton searchButton;
@@ -492,6 +519,7 @@ public class StockMainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel yearHighLabel;
     private javax.swing.JTextField yearLowField;
     private javax.swing.JLabel yearLowLabel;
+    private Portfolio portfolio;
     private DefaultListModel listModel;
     // End of variables declaration
 }
