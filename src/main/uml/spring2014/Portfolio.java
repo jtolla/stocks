@@ -1,5 +1,6 @@
 package uml.spring2014;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -50,9 +51,22 @@ public class Portfolio {
      *
      * @return stocks
      */
-    public ArrayList<Stock> displayPortfolio() {
-        ArrayList<Stock> stocks = new ArrayList<Stock>();
-        return stocks;
+    public static ArrayList<String> displayPortfolio(ResultSet rs) {
+    	
+    	
+    	ArrayList<String> PortfolioArray = new ArrayList<String>();
+    	
+    	
+    	 try {
+			while(rs.next()){
+				 PortfolioArray.add(rs.getString(1)); 
+			 }
+		} catch (SQLException e) {
+			System.out.println("The Result Set is NULL or " + rs);
+		}
+        
+       
+        return PortfolioArray;
     }
 
 	public void setName(String portfolioName2) {

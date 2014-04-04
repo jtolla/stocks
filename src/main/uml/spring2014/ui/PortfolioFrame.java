@@ -1,6 +1,14 @@
 package uml.spring2014.ui;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import javax.swing.*;
+
+import com.mysql.jdbc.PreparedStatement;
+import com.sun.jndi.ldap.Connection;
+
 import uml.spring2014.exceptions.NoDataException;
 import uml.spring2014.*;
 
@@ -145,19 +153,58 @@ public class PortfolioFrame extends javax.swing.JFrame {
     /**
      * Query the Portfolio table for a list
      */
-    private void FillCombo(){
-        try{
-            String sql = "select * from Portfolio";
-            pst = conn.prepareStatement(sql);
-            rs = pst.executeQuery();
-            
-            while(rs.next()){
-                String portfolio = rs.getString("Portfolio");
-                portListCombo.addItem(portfolio);
-            }
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null, e);
-        }
+    private static void FillCombo(){
+    	DatabaseQueries.getPortfolios("SELECT * FROM portfolio");
+      
+    	java.sql.Connection conn = null;
+		try {
+			conn = DatabaseConnect.getConnection();
+		} catch (SQLException e4) {
+			// TODO Auto-generated catch block
+			e4.printStackTrace();
+		}
+    	
+    	ArrayList<String> PortfolioArray = new ArrayList<String>();
+    	String query = ("SELECT * FROM portfolio");
+    	PreparedStatement stm = null;
+		try {
+			stm = (PreparedStatement) conn.prepareStatement(query);
+		} catch (SQLException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		} 
+
+    	ResultSet rs = null;
+		try {
+			rs = stm.executeQuery(query);
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} 
+
+    	try {
+			while (rs.next()) { 
+			    String portfolio = rs.getString("portfolioName"); 
+			    // add group names to the array list
+			    PortfolioArray.add(portfolio);
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} 
+
+    	try {
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+
+
+    	// Populate the combo box
+    	DefaultComboBoxModel model = new DefaultComboBoxModel(PortfolioArray.toArray());
+    	portListCombo.setModel(model);
+
     }
     
     /**
@@ -267,13 +314,17 @@ public class PortfolioFrame extends javax.swing.JFrame {
             @Override
             public void run() {
                 new PortfolioFrame().setVisible(true);
+                //StockMainFrame.FillStockList();
+               FillCombo();
+                
                 
             }
         });
     }
-    // Variables declaration - do not modify
+
+	// Variables declaration - do not modify
     private javax.swing.JButton clearFormButton;
-    private javax.swing.JComboBox portListCombo;
+    private static javax.swing.JComboBox<String> portListCombo;
     private javax.swing.JLabel existPortLabel;
     private javax.swing.JButton exitButton;
     private javax.swing.JButton newPortButton;

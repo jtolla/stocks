@@ -44,7 +44,8 @@ public static ResultSet getPortfolios(String Query)
 			java.sql.Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			ResultSet rs = stmt.executeQuery(Query);
 			){
-		PortfolioTable.displayData(rs);
+		//PortfolioTable.displayData(rs);
+		Portfolio.displayPortfolio(rs);
 	
 	} catch (SQLException e) {
 		e.printStackTrace();

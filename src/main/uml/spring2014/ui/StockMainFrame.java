@@ -1,14 +1,20 @@
 package uml.spring2014.ui;
 
 import java.awt.Font;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+
+import uml.spring2014.DatabaseQueries;
+import uml.spring2014.PortfolioStockRelationshipTable;
 import uml.spring2014.Stock;
 import uml.spring2014.Portfolio;
 import uml.spring2014.StockFetcher;
+import uml.spring2014.beans.PortfolioStockRelationshipEntity;
 import uml.spring2014.exceptions.*;
 
 /**
@@ -333,15 +339,17 @@ public class StockMainFrame extends javax.swing.JFrame {
 
         pack();
     }
-    
-    private void FillStockList(){
+    /** Assuming this fills the list of stocks based on the current portfolio name*/
+    static void FillStockList(){
         try{
-            String sql = "select * from Portfolio";
-            pst = conn.prepareStatement(sql);
-            rs = pst.executeQuery();
+        	
+           String currentPortfolioName = portfolio.getPortfolioName();;
+			// String sql = "select * from Portfolio";
+           // pst = conn.prepareStatement(sql);
+            ResultSet rs = DatabaseQueries.getPortfolioStockRelationships("SELECT * FROM portfoliostockrelationship WHERE portfolioName = " + currentPortfolioName);
             
             while(rs.next()){
-                String stock = rs.getString("Stock");
+                String stock = rs.getString("stockSymbol");
                 stockList.setModel(listModel);
                 listModel.addElement(stock);
             }
@@ -440,7 +448,7 @@ public class StockMainFrame extends javax.swing.JFrame {
                     throw new NoDataException("Invalid Symbol");
                 } // end if
                 
-                Portfolio.addStockToPortfolio(symbol, portfolioName);
+                Stock.addStockToPortfolio(symbol, portfolioName);
                 stockList.setModel(listModel);
                 listModel.addElement(symbol);
 
@@ -508,7 +516,7 @@ public class StockMainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel priceLabel;
     private javax.swing.JButton searchButton;
     private javax.swing.JLabel searchLabel;
-    private javax.swing.JList stockList;
+    private static javax.swing.JList stockList;
     private javax.swing.JPanel stockPanel;
     private javax.swing.JTextField symbolField;
     private javax.swing.JLabel symbolLabel;
@@ -519,7 +527,7 @@ public class StockMainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel yearHighLabel;
     private javax.swing.JTextField yearLowField;
     private javax.swing.JLabel yearLowLabel;
-    private Portfolio portfolio;
-    private DefaultListModel listModel;
+    private static Portfolio portfolio;
+    private static DefaultListModel listModel;
     // End of variables declaration
 }
