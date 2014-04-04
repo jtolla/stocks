@@ -78,6 +78,7 @@ public class StockMainFrame extends javax.swing.JFrame {
         stockList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         stockList.setToolTipText("");
         stockList.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 stockListMouseClicked(evt);
             }
@@ -86,6 +87,7 @@ public class StockMainFrame extends javax.swing.JFrame {
 
         searchButton.setText("Search");
         searchButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 searchButtonActionPerformed(evt);
             }
@@ -98,6 +100,7 @@ public class StockMainFrame extends javax.swing.JFrame {
         tickerSearchField.setText("ex: 'TSLA'");
         tickerSearchField.setToolTipText("");
         tickerSearchField.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tickerSearchFieldMouseClicked(evt);
             }
@@ -137,6 +140,7 @@ public class StockMainFrame extends javax.swing.JFrame {
 
         addStockButton.setText("Add Stock");
         addStockButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addStockButtonActionPerformed(evt);
             }
@@ -144,6 +148,7 @@ public class StockMainFrame extends javax.swing.JFrame {
 
         removeStockButton.setText("Remove Stock");
         removeStockButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 removeStockButtonActionPerformed(evt);
             }
@@ -276,6 +281,7 @@ public class StockMainFrame extends javax.swing.JFrame {
 
         exitButton2.setText("Exit");
         exitButton2.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 exitButton2ActionPerformed(evt);
             }
@@ -283,6 +289,7 @@ public class StockMainFrame extends javax.swing.JFrame {
 
         clearButton2.setText("Clear Form");
         clearButton2.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 clearButton2ActionPerformed(evt);
             }
@@ -317,7 +324,7 @@ public class StockMainFrame extends javax.swing.JFrame {
 
         pack();
     }
-    
+        
     /** Closes application */
     private void exitButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                            
         
@@ -432,7 +439,7 @@ public class StockMainFrame extends javax.swing.JFrame {
     }
 
     /**
-     * On mouseclick in stockList, query selected symbol and parse data to text fields.
+     * On mouse click in stockList, query selected symbol and parse data to text fields.
      */
     private void stockListMouseClicked(java.awt.event.MouseEvent evt) {                                       
   

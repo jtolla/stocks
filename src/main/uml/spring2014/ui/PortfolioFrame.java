@@ -15,8 +15,6 @@ import javax.swing.*;
  */
 public class PortfolioFrame extends javax.swing.JFrame {
 
-    Portfolio portfolio = new Portfolio();
-
     /**
      * Creates new form PortfolioFrame
      */
@@ -36,19 +34,20 @@ public class PortfolioFrame extends javax.swing.JFrame {
         newPortField = new javax.swing.JTextField();
         newPortButton = new javax.swing.JButton();
         existPortLabel = new javax.swing.JLabel();
-        existPortField = new javax.swing.JTextField();
         openPortButton = new javax.swing.JButton();
+        portListCombo = new javax.swing.JComboBox();
         exitButton = new javax.swing.JButton();
         clearFormButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        portfolioPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Portfolio Information", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+        portfolioPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Portfolio Information", 2, 0));
 
         newPortLabel.setText("Create New Portfolio:");
 
         newPortButton.setText("Create");
         newPortButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newPortButtonActionPerformed(evt);
             }
@@ -58,6 +57,7 @@ public class PortfolioFrame extends javax.swing.JFrame {
 
         openPortButton.setText("Open");
         openPortButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 openPortButtonActionPerformed(evt);
             }
@@ -73,14 +73,14 @@ public class PortfolioFrame extends javax.swing.JFrame {
                     .addComponent(newPortLabel)
                     .addComponent(existPortLabel)
                     .addGroup(portfolioPanelLayout.createSequentialGroup()
-                        .addGroup(portfolioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(existPortField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                            .addComponent(newPortField, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGroup(portfolioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(newPortField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(portListCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(portfolioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(newPortButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(openPortButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(87, Short.MAX_VALUE))
+                .addContainerGap())
         );
         portfolioPanelLayout.setVerticalGroup(
             portfolioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -95,13 +95,14 @@ public class PortfolioFrame extends javax.swing.JFrame {
                 .addComponent(existPortLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(portfolioPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(existPortField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(openPortButton))
+                    .addComponent(openPortButton)
+                    .addComponent(portListCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(80, Short.MAX_VALUE))
         );
 
         exitButton.setText("Exit");
         exitButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 exitButtonActionPerformed(evt);
             }
@@ -109,6 +110,7 @@ public class PortfolioFrame extends javax.swing.JFrame {
 
         clearFormButton.setText("Clear Form");
         clearFormButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 clearFormButtonActionPerformed(evt);
             }
@@ -123,7 +125,7 @@ public class PortfolioFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(portfolioPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 234, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(clearFormButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(exitButton)))
@@ -145,19 +147,38 @@ public class PortfolioFrame extends javax.swing.JFrame {
     }
     
     /**
+     * Query the Portfolio table for a list
+     */
+    private void FillCombo(){
+        try{
+            String sql = "select * from Portfolio";
+            pst = conn.prepareStatement(sql);
+            rs = pst.executeQuery();
+            
+            while(rs.next()){
+                String portfolio = rs.getString("Portfolio");
+                portListCombo.addItem(portfolio);
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+    
+    /**
      * If newPortField is blank an error shown and creation is not executed.
      */
     private void newPortButtonActionPerformed(java.awt.event.ActionEvent evt) {
         
         try {
                 String portfolioName = newPortField.getText();
-                portfolio.setPortfolio(portfolioName);
-
+                Portfolio.setPortfolio(portfolioName);
+                
                 if((portfolioName == null) || (portfolioName.length() == 0)) {
                     throw new NoDataException("Please Enter a Portfolio Name");
                 } // end if
                 
                 java.awt.EventQueue.invokeLater(new Runnable() {
+                    @Override
                     public void run() {
                         new StockMainFrame().setVisible(true);
                    } 
@@ -169,6 +190,8 @@ public class PortfolioFrame extends javax.swing.JFrame {
                     
               } // end try catch
         
+        this.dispose();
+        
     }                                             
 
     /**
@@ -178,16 +201,19 @@ public class PortfolioFrame extends javax.swing.JFrame {
      */
     private void openPortButtonActionPerformed(java.awt.event.ActionEvent evt) {
         
-        try {
-                String portfolioName = existPortField.getText();
-                                
-                if((portfolioName == null) || (portfolioName.length() == 0)) {
-                    throw new NoDataException("Please Enter a Portfolio Name");
+        try {                               
+                if(portListCombo.getSelectedIndex() == -1) {
+                    throw new NoDataException("Please Select a Portfolio to Open");
                 } // end if
                 
+                String portfolioName = (String)portListCombo.getSelectedItem();
+                Portfolio.setPortfolio(portfolioName);
+                
                 java.awt.EventQueue.invokeLater(new Runnable() {
+                    @Override
                     public void run() {
                         new StockMainFrame().setVisible(true);
+                        
                     } 
                 });
             } catch(NoDataException e) {
@@ -196,6 +222,8 @@ public class PortfolioFrame extends javax.swing.JFrame {
                         JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE);
                     
               } // end try catch
+        
+        this.dispose();
 
     }
 
@@ -215,7 +243,7 @@ public class PortfolioFrame extends javax.swing.JFrame {
     private void clearFormButtonActionPerformed(java.awt.event.ActionEvent evt) {
         
         newPortField.setText("");
-        existPortField.setText("");
+        portListCombo.setSelectedIndex(-1);
         
     }
 
@@ -300,27 +328,23 @@ public class PortfolioFrame extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PortfolioFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PortfolioFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PortfolioFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(PortfolioFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
+        
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new PortfolioFrame().setVisible(true);
+                
             }
         });
     }
     // Variables declaration - do not modify
     private javax.swing.JButton clearFormButton;
-    private javax.swing.JTextField existPortField;
+    private javax.swing.JComboBox portListCombo;
     private javax.swing.JLabel existPortLabel;
     private javax.swing.JButton exitButton;
     private javax.swing.JButton newPortButton;
