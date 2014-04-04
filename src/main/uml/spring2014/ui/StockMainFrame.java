@@ -407,22 +407,26 @@ public class StockMainFrame extends javax.swing.JFrame {
     private void addStockButtonActionPerformed(java.awt.event.ActionEvent evt) {
 	
 	try {
-                String symbol = newSymbolField.getText();
-                                
-                if((symbol == null) || (symbol.length() == 0)) {
-                    throw new NoDataException("Invalid Symbol");
-                } // end if
-                
-                Stock stock = StockFetcher.getStockData(symbol);
-                portfolio.addStock(stock);
-                listModel.addElement(symbol);             
+/** Sara the getportfolioName method is returning nuthing*/
+		String portfolioName = portfolio.getPortfolioName();
+        String symbol = newSymbolField.getText();
+                        
+        if((symbol == null) || (symbol.length() != 4)) {
+            throw new NoDataException("Invalid Symbol");
+        } // end if
+        
 
-            } catch(NoDataException e) {
+       System.out.print(symbol);
+      
+       portfolio.addStock(symbol, portfolioName);
+      // listModel.addElement(symbol);             
 
-                JOptionPane.showConfirmDialog(this, e.getMessage(), "Unable to Add Stock", 
-                        JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE);
-                    
-              } // end try catch
+    } catch(NoDataException e) {
+
+        JOptionPane.showConfirmDialog(this, e.getMessage(), "Unable to Add Stock", 
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE);
+            
+      } // end try catch
         
     }
 

@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import uml.spring2014.beans.PortfolioEntity;
+import uml.spring2014.beans.PortfolioStockRelationshipEntity;
 
 /**
  * @author jtolla
@@ -27,8 +28,20 @@ public class Portfolio {
         return portfolioName;
     }
 
-    public void addStock(Stock stock) {
-      stock = this.stock;
+    public void addStock(String symbol, String pName) {
+    	/** take the stock and portfolio and create java beans to pass to SQL methods*/
+   	
+   	;
+   	 PortfolioStockRelationshipEntity bean = new PortfolioStockRelationshipEntity();
+   	 bean.setPortfolioName(pName);
+   	 bean.setStockSymbol(symbol);
+   	 try {
+		PortfolioStockRelationshipTable.insert(bean);
+	} catch (SQLException e) {
+		/** add correct UI feedback here*/
+		e.printStackTrace();
+	}
+   	 
     }
 
     public void removeStock(Stock stock) {

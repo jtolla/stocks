@@ -1,5 +1,6 @@
 package uml.spring2014.ui;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import uml.spring2014.beans.PortfolioEntity;
@@ -150,14 +151,17 @@ public class PortfolioFrame extends javax.swing.JFrame {
      * Query the Portfolio table for a list
      */
     private void FillCombo(){
+    	
+    	ResultSet rs;
+    	rs = DatabaseQueries.getPortfolioStockRelationships("SELECT * FROM portfolio");
         try{
-            String sql = "select * from Portfolio";
-            pst = conn.prepareStatement(sql);
-            rs = pst.executeQuery();
+          
             
             while(rs.next()){
                 String portfolio = rs.getString("Portfolio");
-                portListCombo.addItem(portfolio);
+                System.out.println(portfolio + "WTF");
+                //portListCombo.addItem(portfolio);
+             
             }
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, e);
