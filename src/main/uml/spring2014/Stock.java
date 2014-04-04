@@ -9,6 +9,10 @@ import uml.spring2014.beans.StockEntity;
 /**
  * @author jtolla
  *
+ * The Stock class is used to instantiate new Stock objects. Those objects have simple get methods that return
+ * data fetched from the API. The actual API call is done in the StockFetcher class. The Stock object is simply a
+ * data store. It also allows contains the addToStockPortfolio method which will add the stock to the relevant
+ * portfolio in the database.
  */
 public class Stock {
 

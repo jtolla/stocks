@@ -6,6 +6,7 @@ import org.junit.Test;
 /**
  * @author jtolla
  *
+ * Test the Yahoo Finance API call
  */
 public class StockFetcherTest {
 
@@ -14,6 +15,9 @@ public class StockFetcherTest {
         // No setup required
     }
 
+    /**
+     * Test API call by pinging Yahoo and requesting current price, volume, 52 week high and low for TSLA
+     */
     @Test
     public void testGetStockData() {
 

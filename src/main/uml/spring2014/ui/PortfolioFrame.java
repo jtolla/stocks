@@ -152,13 +152,13 @@ public class PortfolioFrame extends javax.swing.JFrame {
     private void FillCombo(){
         try{
             String sql = "select * from Portfolio";
-            pst = conn.prepareStatement(sql);
+            /*pst = conn.prepareStatement(sql);
             rs = pst.executeQuery();
             
             while(rs.next()){
                 String portfolio = rs.getString("Portfolio");
                 portListCombo.addItem(portfolio);
-            }
+            }*/
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, e);
         }

@@ -29,9 +29,9 @@ public static PortfolioEntity getRow(String portfolioName) throws SQLException {
 	ResultSet rs = null;
 	/* Try with resources */
 	try (
-			Connection conn = DatabaseConnect.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(sql);
-			){
+         Connection conn = DatabaseConnect.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql);
+    ){
 		stmt.setString(1, portfolioName);
 		rs = stmt.executeQuery();
 		

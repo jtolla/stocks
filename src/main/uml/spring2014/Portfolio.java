@@ -8,6 +8,11 @@ import uml.spring2014.beans.PortfolioEntity;
 /**
  * @author jtolla
  *
+ * The Portfolio class allows us to instantiate new Portfolio objects with a user-defined name. It contains the
+ * displayPortfolio method that returns an array of associated stocks from the database and prints those to the
+ * Watch List. It also contains setPortfolio method and deletePortfolio method that allow us to create and remove
+ * portfolio instances from the database.
+ *
  */
 public class Portfolio {
 
@@ -15,15 +20,20 @@ public class Portfolio {
     private String portfolioName;
    
     public Portfolio(){
-    
+        /*
+         * Stub
+         */
     };
 
+    /*
+     * Portfolio constructor that accepts a portfolio name as a parameter
+     */
     public Portfolio(String portfolioName) {
         this.portfolioName = portfolioName;
-    	
     }
 
     public String getPortfolioName() {
+
         return portfolioName;
     }
 
@@ -35,14 +45,19 @@ public class Portfolio {
     	 stock = this.stock;
     }
 
+    /**
+     * Return an array of stocks to be looped through and added to the UI watchlist.
+     *
+     * @return stocks
+     */
     public ArrayList<Stock> displayPortfolio() {
-    	
         ArrayList<Stock> stocks = new ArrayList<Stock>();
         return stocks;
     }
 
 	public void setName(String portfolioName2) {
-		// TODO Auto-generated method stub
+
+        this.portfolioName = portfolioName2;
 		
 	}
 
