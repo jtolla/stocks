@@ -7,6 +7,8 @@ This is a stock portfolio application. It allows a user to view relevant data vi
 
 Start mySQL  - Set the user name to appuser and the password to appuser. Use the defualt localhost port  :3030
 
+Open Workbench - from there use the buttons to create the following items. Names must match exactly. 
+
 Create a new schema and name it stockportfolio
 
 create a new table and name it: portfolio  Name the first column portfolioId and make it the primary key, Not NULL, and Auto Increment. 
