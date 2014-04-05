@@ -343,10 +343,8 @@ public class StockMainFrame extends javax.swing.JFrame {
     static void FillStockList(){
         try{
         	
-           String currentPortfolioName = portfolio.getPortfolioName();;
-			// String sql = "select * from Portfolio";
-           // pst = conn.prepareStatement(sql);
-            ResultSet rs = DatabaseQueries.getPortfolioStockRelationships("SELECT * FROM portfoliostockrelationship WHERE portfolioName = " + currentPortfolioName);
+           String currentPortfolioName = portfolio.getPortfolioName();
+           ResultSet rs = DatabaseQueries.getPortfolioStockRelationships("SELECT * FROM portfoliostockrelationship WHERE portfolioName = " + currentPortfolioName);
             
             while(rs.next()){
                 String stock = rs.getString("stockSymbol");
@@ -354,7 +352,9 @@ public class StockMainFrame extends javax.swing.JFrame {
                 listModel.addElement(stock);
             }
         }catch(Exception e){
-            JOptionPane.showMessageDialog(null, e);
+        	String stock2 = "Default";
+        	stockList.setModel(listModel);
+            listModel.addElement(stock2);
         }
     }
         
@@ -467,9 +467,11 @@ public class StockMainFrame extends javax.swing.JFrame {
     private void removeStockButtonActionPerformed(java.awt.event.ActionEvent evt) {
         
         String symbol = (String)stockList.getSelectedValue();
-        Stock stock = StockFetcher.getStockData(symbol);
+      
         
-        portfolio.removeStock(stock);
+        String portfolioName = portfolio.getPortfolioName();
+       // System.out.println("symbol is  " + portfolioName);    Andrew fixing query
+        PortfolioStockRelationshipTable.deleteStockFromPortfolio(symbol, portfolioName);
         listModel.remove(stockList.getSelectedIndex());
     }
 

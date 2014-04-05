@@ -189,8 +189,11 @@ public class PortfolioFrame extends javax.swing.JFrame {
 			    PortfolioArray.add(portfolio);
 			}
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			ArrayList<String> DefaultArray = new ArrayList<String>();
+			String message = "Add portfolio above.";
+			DefaultArray.add(message);
+			DefaultComboBoxModel model = new DefaultComboBoxModel(DefaultArray.toArray());
+	    	portListCombo.setModel(model);
 		} 
 
     	try {

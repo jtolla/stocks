@@ -106,8 +106,8 @@ public static boolean insert ( PortfolioStockRelationshipEntity bean) throws SQL
  *  !Important - this is how we delete 
  *  a stock from a portfolio   */
 
-public static boolean deleteStockFromPortfolio(String stockSymbol){
-	String sql = "DELETE from portfolioStockRelationship WHERE stockSymbol = ?";
+public static boolean deleteStockFromPortfolio(String stockSymbol, String portfolioName){
+	String sql = "DELETE from portfolioStockRelationship WHERE stockSymbol = ?, ?";
 	
 	try (
 			Connection conn = DatabaseConnect.getConnection();
@@ -115,6 +115,7 @@ public static boolean deleteStockFromPortfolio(String stockSymbol){
 			){
 		
 		stmt.setString(1, stockSymbol);
+		stmt.setString(2, portfolioName);
 		int affected = stmt.executeUpdate();
 		
 		if (affected == 1 ){
