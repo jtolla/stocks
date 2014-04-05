@@ -3,7 +3,7 @@
 <project name="stocks" default="all" basedir=".">
 
     <property name="src.dir" value="src${file.separator}main${file.separator}uml${file.separator}spring2014" description="project source code"/>
-    <property name="src-test.dir" value="src${file.separator}test${file.separator}uml${file.separator}spring2014" description="project test code"/>
+    <property name="src-test.dir" value="src${file.separator}test${file.separator}uml" description="project test code"/>
     <property name="lib.dir" value="lib" description="project libraries are found here"/>
     <property name="build.dir" value="build"
               description="anything this build script generates goes under this directory"/>
@@ -22,6 +22,8 @@
             <include name="**/*.jar"/>
         </fileset>
     </path>
+
+
 
 
     <!-- targets follow - each target does one thing in the compile, run, test and build process -->

@@ -29,50 +29,34 @@ public class StockFetcher {
      * in an array. A new Stock instance is returned.
      */
     public StockFetcher() {
-        /*
-         * Stub
-         */
+        // Stub
     }
 
     public static Stock getStockData(String tickerSymbol) {
 
-        String symbol = tickerSymbol.toUpperCase();
-        double price = 0.0;
-        int volume = 0;
-        double fiftyTwoWeekLow = 0.0;
+        String symbol           = tickerSymbol.toUpperCase();
+        double price            = 0.0;
+        int volume              = 0;
+        double fiftyTwoWeekLow  = 0.0;
         double fiftyTwoWeekHigh = 0.0;
 
         try {
 
-            /*
-             * Create a URL instance using the tickerSymbol parameter
-             */
+            // Create a URL instance using the tickerSymbol parameter
             URL yahooFinance = new URL("http://finance.yahoo.com/d/quotes.csv?s=" + symbol + "&f=l1vr2ejkghm3j3");
-            /*
-             * Connect to the URL
-             */
+            // Connect to the URL
             URLConnection connection = yahooFinance.openConnection();
-            /*
-             * Get the CSV
-             */
+            // Get the CSV
             InputStreamReader inputStream = new InputStreamReader(connection.getInputStream());
-            /*
-             * Buffer the input
-             */
+            // Buffer the input
             BufferedReader bufferedReader = new BufferedReader(inputStream);
 
-            /*
-             * Grab the row of data
-             */
+            // Grab the row of data
             String line = bufferedReader.readLine();
-            /*
-             * Parse the resulting comma delimited string
-             */
+            // Parse the resulting comma delimited string
             String[] stockData = line.split(",");
 
-            /*
-             * Handle any data returned as "N/A"
-             */
+            // Handle any data returned as "N/A"
             price = handleDoubleHelper(stockData[0]);
             volume = handleIntegerHelper(stockData[1]);
             fiftyTwoWeekLow = handleDoubleHelper(stockData[4]);
@@ -80,27 +64,17 @@ public class StockFetcher {
 
         } catch (IOException e) {
 
-            /*
-             * Display error and log messages if API call fails
-             */
-            Object[] options = { "OK", "CANCEL" };
-            JOptionPane.showOptionDialog(null, "Click OK to continue", "Unable to fetch stock data.",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
-                    null, options, options[0]);
+            // - HANDLE THIS - Log messages if API call fails
             Logger log = Logger.getLogger(Stock.class.getName());
             log.log(Level.SEVERE, e.toString(), e);
 
         }
 
-        /*
-         * Return an instance of Stock using newly attained data in the constructor
-         */
+        // Return an instance of Stock using newly attained data in the constructor
         return new Stock(symbol, price, volume, fiftyTwoWeekHigh, fiftyTwoWeekLow);
-    }
+    } /* end getStockData */
 
-    /*
-     * Helper method used to handle "N/A" values when Double is expected
-     */
+    // Helper method used to handle "N/A" values when Double is expected
     public static double handleDoubleHelper(String x) {
         Double y;
         if (Pattern.matches("N/A", x)) {
@@ -109,11 +83,9 @@ public class StockFetcher {
             y = Double.parseDouble(x);
         }
         return y;
-    }
+    } /* end handleDoubleHelper */
 
-    /*
-     * Helper method used to handle "N/A" values when Integer is expected
-     */
+    // Helper method used to handle "N/A" values when Integer is expected
     public static int handleIntegerHelper(String x) {
         int y;
         if (Pattern.matches("N/A", x)) {
@@ -122,7 +94,7 @@ public class StockFetcher {
             y = Integer.parseInt(x);
         }
         return y;
-    }
+    } /* end handleIntegerHelper */
 
-}
+} /* end StockFetcher */
 

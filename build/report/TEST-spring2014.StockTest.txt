@@ -1,0 +1,8 @@
+Testsuite: spring2014.StockTest
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.024 sec
+
+Testcase: testGetFiftyTwoWeekHigh took 0.002 sec
+Testcase: testGetVolume took 0 sec
+Testcase: testGetTickerSymbol took 0 sec
+Testcase: testGetFiftyTwoWeekLow took 0 sec
+Testcase: testGetCurrentPrice took 0 sec

@@ -20,27 +20,26 @@ import uml.spring2014.*;
 public class PortfolioFrame extends javax.swing.JFrame {
 
     /**
-* Creates new form PortfolioFrame
-*/
+    * Creates new form PortfolioFrame
+    */
     public PortfolioFrame() {
         initComponents();
         this.setTitle("Stock Market Portfolio System");
     }
 
-    /**
-* This method is called from within the constructor to initialize the form.
-*
-*/
+   /**
+    * This method is called from within the constructor to initialize the form.
+    */
     private void initComponents() {
         
-        portfolioPanel = new javax.swing.JPanel();
-        newPortLabel = new javax.swing.JLabel();
-        newPortField = new javax.swing.JTextField();
-        newPortButton = new javax.swing.JButton();
-        existPortLabel = new javax.swing.JLabel();
-        openPortButton = new javax.swing.JButton();
-        portListCombo = new javax.swing.JComboBox();
-        exitButton = new javax.swing.JButton();
+        portfolioPanel  = new javax.swing.JPanel();
+        newPortLabel    = new javax.swing.JLabel();
+        newPortField    = new javax.swing.JTextField();
+        newPortButton   = new javax.swing.JButton();
+        existPortLabel  = new javax.swing.JLabel();
+        openPortButton  = new javax.swing.JButton();
+        portListCombo   = new javax.swing.JComboBox();
+        exitButton      = new javax.swing.JButton();
         clearFormButton = new javax.swing.JButton();
         
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -151,100 +150,114 @@ public class PortfolioFrame extends javax.swing.JFrame {
     }
     
     /**
-* Query the Portfolio table for a list
-*/
+     * Query the Portfolio table for a list
+     */
     private static void FillCombo(){
-     DatabaseQueries.getPortfolios("SELECT * FROM portfolio");
-      
-     java.sql.Connection conn = null;
-try {
-conn = DatabaseConnect.getConnection();
-} catch (SQLException e4) {
-// TODO Auto-generated catch block
-e4.printStackTrace();
-}
-    
-     ArrayList<String> PortfolioArray = new ArrayList<String>();
-     String query = ("SELECT * FROM portfolio");
-     PreparedStatement stm = null;
-try {
-stm = (PreparedStatement) conn.prepareStatement(query);
-} catch (SQLException e3) {
-// TODO Auto-generated catch block
-e3.printStackTrace();
-}
+        
+        DatabaseQueries.getPortfolios("SELECT * FROM portfolio");
+        
+        java.sql.Connection conn = null;
+        
+        try {
+            conn = DatabaseConnect.getConnection();
+        
+        }catch(SQLException e4) {
+            
+            e4.printStackTrace();
+        }
+        
+        ArrayList<String> PortfolioArray = new ArrayList<>();
+        String query = ("SELECT * FROM portfolio");
+        PreparedStatement stm = null;
 
-     ResultSet rs = null;
-try {
-rs = stm.executeQuery(query);
-} catch (SQLException e2) {
-// TODO Auto-generated catch block
-e2.printStackTrace();
-}
+        try {
+            stm = (PreparedStatement) conn.prepareStatement(query);
+        }catch(SQLException e3){
+        
+            e3.printStackTrace();
+        }
 
-     try {
-while (rs.next()) {
-String portfolio = rs.getString("portfolioName");
-// add group names to the array list
-PortfolioArray.add(portfolio);
-}
-} catch (SQLException e1) {
-ArrayList<String> DefaultArray = new ArrayList<String>();
-String message = "Add portfolio above.";
-DefaultArray.add(message);
-DefaultComboBoxModel model = new DefaultComboBoxModel(DefaultArray.toArray());
-portListCombo.setModel(model);
-}
+        ResultSet rs = null;
+        try {
+            rs = stm.executeQuery(query);
+        }catch(SQLException e2){
+        
+            e2.printStackTrace();
+        }
 
-     try {
-rs.close();
-} catch (SQLException e) {
-// TODO Auto-generated catch block
-e.printStackTrace();
-}
+        try {
+            while (rs.next()) {
+                String portfolio = rs.getString("portfolioName");
+                
+                // add group names to the array list
+                PortfolioArray.add(portfolio);
+            }
+        }catch(SQLException e1){
+            ArrayList<String> DefaultArray = new ArrayList<String>();
+            String message = "Add portfolio above.";
+            DefaultArray.add(message);
+            DefaultComboBoxModel model = new DefaultComboBoxModel(DefaultArray.toArray());
+            portListCombo.setModel(model);
+        }
+
+        try {
+            rs.close();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
 
 
      // Populate the combo box
      DefaultComboBoxModel model = new DefaultComboBoxModel(PortfolioArray.toArray());
      portListCombo.setModel(model);
 
-    }
+    } /* End FillCombo */
     
     /**
-* If newPortField is blank an error shown and creation is not executed.
-*/
+    * If newPortField is blank an error shown and creation is not executed.
+    */
     private void newPortButtonActionPerformed(java.awt.event.ActionEvent evt) {
         
-        try {
-                final Portfolio portfolio = new Portfolio(newPortField.getText());
-                Portfolio.setPortfolio(newPortField.getText());
-                
-                
-                if((newPortField.getText() == null) || (newPortField.getText().length() == 0)) {
-                    throw new NoDataException("Please Enter a Portfolio Name");
+        try {       
+                String str = newPortField.getText();
+                               
+                if((str == null) || (str.length() == 0)) {
+                    throw new NoDataException("Please enter a portfolio name.");
                 } // end if
+                else{
+                    
+                    for(int i = 0; i < str.length(); ++i){
+                        char c = str.charAt(i);
+                        if(!Character.isDigit(c) && !Character.isLetter(c) && !Character.isWhitespace(c)){
+                            throw new NoDataException("Alpha-Numeric Names Only");
+                        }
+                        
+                    }
+                }
                 
+                                
+                final Portfolio portfolio = new Portfolio(str);
+                Portfolio.setPortfolio(str);
+
                 java.awt.EventQueue.invokeLater(new Runnable() {
                     @Override
-                    public void run() {
-                        new StockMainFrame(portfolio).setVisible(true);
-                   }
-                });
-                
-            } catch(NoDataException e) {
+                        public void run() {
+                            new StockMainFrame(portfolio).setVisible(true);
+                       }
+                    });
+
+                } catch(NoDataException e) {
 
                 JOptionPane.showConfirmDialog(this, e.getMessage(), "Unable to Create Portfolio",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE);
                     
               } // end try catch
         
-    }
+    }/* End newPortButtonActionPerformed */
 
     /**
-* Method searches for an existing portfolio to open. If no name is entered
-* an error message occurs and does not proceed with code. Need to add
-* functionality to search in next iteration.
-*/
+    * User selects a portfolio from the comboBox to be opened.
+    */
     private void openPortButtonActionPerformed(java.awt.event.ActionEvent evt) {
         
         try {
@@ -265,39 +278,38 @@ e.printStackTrace();
                     }
                 });
                 
-            } catch(NoDataException e) {
+            }catch(NoDataException e){
 
                 JOptionPane.showConfirmDialog(this, e.getMessage(), "Unable to Open Portfolio",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE);
                     
-              } // end try catch
+             } // end try catch
 
-    }
+    } /* end openPortButtonActionPerformed */
 
     /**
-* Exits program when Exit button is selected.
-*/
+     * Exits program when Exit button is selected.
+     */
     private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {
         
         this.dispose();
         
-    }
+    } /* end exitButtonActionPerformed */
     
     /**
-* Clears all text fields on form when Clear button is selected.
-*
-*/
+     * Clears all text fields on form when Clear button is selected.
+     */
     private void clearFormButtonActionPerformed(java.awt.event.ActionEvent evt) {
         
         newPortField.setText("");
         portListCombo.setSelectedIndex(-1);
         
-    }
+    } /* end clearFormButtonActionPerformed */
 
     /**
-* @param args the command line arguments
-* @throws SQLException
-*/
+     * @param args the command line arguments
+     * 
+     */
     public static void main(String args[]){
         
         /* Set the Nimbus look and feel */
@@ -318,22 +330,22 @@ e.printStackTrace();
             public void run() {
                 new PortfolioFrame().setVisible(true);
                 //StockMainFrame.FillStockList();
-               FillCombo();
+                FillCombo();
                 
                 
             }
         });
-    }
+    } /* End main */
 
-// Variables declaration - do not modify
-    private javax.swing.JButton clearFormButton;
+    // Variables declaration
+    private        javax.swing.JButton clearFormButton;
     private static javax.swing.JComboBox<String> portListCombo;
-    private javax.swing.JLabel existPortLabel;
-    private javax.swing.JButton exitButton;
-    private javax.swing.JButton newPortButton;
-    private javax.swing.JTextField newPortField;
-    private javax.swing.JLabel newPortLabel;
-    private javax.swing.JButton openPortButton;
-    private javax.swing.JPanel portfolioPanel;
+    private        javax.swing.JLabel existPortLabel;
+    private        javax.swing.JButton exitButton;
+    private        javax.swing.JButton newPortButton;
+    private        javax.swing.JTextField newPortField;
+    private        javax.swing.JLabel newPortLabel;
+    private        javax.swing.JButton openPortButton;
+    private        javax.swing.JPanel portfolioPanel;
     // End of variables declaration
-}
+}/*End PortfolioFrame*/

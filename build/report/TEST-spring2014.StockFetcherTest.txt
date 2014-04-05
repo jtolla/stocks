@@ -1,0 +1,10 @@
+Testsuite: spring2014.StockFetcherTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.439 sec
+------------- Standard Output ---------------
+Current Price: 212.225
+Volume: 11345618
+52 Week Low: 265.0
+52 Week High: 40.33
+------------- ---------------- ---------------
+
+Testcase: testGetStockData took 0.424 sec
