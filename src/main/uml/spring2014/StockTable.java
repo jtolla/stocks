@@ -11,20 +11,33 @@ import java.sql.Statement;
 
 import uml.spring2014.beans.StockEntity;
 
+/**
+ * This class is designed to interact with the stock table.
+ * 
+ * @author Andrew Conniff
+ */
 public class StockTable {
 	
-    /** returns list of all stocks if the query is correct 
-     * Not used for display to  sending to the array list
+    /**
+     * returns list of all stocks if the query is correct 
+     * Not used for display to sending to the array list
+     * 
+     * @param rs
+     * @throws SQLException 
      */
     public static void displayData (ResultSet rs) throws SQLException {
-            while (rs.next()){
-                String stockTickers = rs.getString("stockSymbol");
-                System.out.println(stockTickers);
-            }/* end while */
+        while (rs.next()){
+            String stockTickers = rs.getString("stockSymbol");
+            System.out.println(stockTickers);
+        }/* end while */
     }/* end displayData*/
 
     /**
      * returns a single row from the stock table
+     * 
+     * @param stockSymbol
+     * @return
+     * @throws SQLException 
      */
     public static StockEntity getRow(String stockSymbol) throws SQLException {
 
@@ -60,7 +73,13 @@ public class StockTable {
 
     }/** end getRow */
 
-    /** adds a stockSymbol to the stock table */
+    /**
+     * adds a stockSymbol to the stock table
+     * 
+     * @param bean
+     * @return
+     * @throws SQLException 
+     */
     public static boolean insert (StockEntity bean) throws SQLException {
         String sql = "INSERT INTO stock (stockSymbol) " + "VALUES (?)";
         ResultSet keys = null;
@@ -90,11 +109,14 @@ public class StockTable {
             } /* end try/catch/finally */
             return true;
 
-    }/** end insert */
+    }/* end insert */
 
-    /** Future use - we would use this to clean 
-     * this table up if the stock does not exist
-     *  in the relationship table (does not belong to a portfolio)
+    /**
+     * Future use - we would use this to clean this table up if the stock
+     * does not exist in the relationship table (does not belong to a portfolio)
+     * 
+     * @param stockSymbol
+     * @return 
      */
     public static boolean delete(String stockSymbol){
 

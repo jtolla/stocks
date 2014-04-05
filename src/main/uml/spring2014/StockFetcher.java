@@ -15,23 +15,27 @@ import javax.swing.*;
 
 
 /**
- * @author jtolla - special thanks to natehefner & erbycfischer (GitHub)
- *
- * This method fetches stock data via the Yahoo Finance API
+ * This method fetches stock data via the Yahoo Finance API. The stock symbol is inserted
+ * into the URL. The response is a csv file which includes the desired data as defined in
+ * the last parameter of the query string. The CSV is then parsed and all data is stored
+ * in an array. A new Stock instance is returned.
+ * 
+ * @author Jason Tolla - special thanks to natehefner & erbycfischer (GitHub)
  *
  */
 public class StockFetcher {
 
-    /**
-     * This method fetches stock data via the Yahoo Finance API. The stock symbol is inserted
-     * into the URL. The response is a csv file which includes the desired data as defined in
-     * the last parameter of the query string. The CSV is then parsed and all data is stored
-     * in an array. A new Stock instance is returned.
-     */
+    
     public StockFetcher() {
         // Stub
     }
-
+    
+    /**
+     * Gets stock info based on symbol sent from UI.
+     * 
+     * @param tickerSymbol
+     * @return 
+     */
     public static Stock getStockData(String tickerSymbol) {
 
         String symbol           = tickerSymbol.toUpperCase();
@@ -74,7 +78,12 @@ public class StockFetcher {
         return new Stock(symbol, price, volume, fiftyTwoWeekHigh, fiftyTwoWeekLow);
     } /* end getStockData */
 
-    // Helper method used to handle "N/A" values when Double is expected
+    /**
+     * Helper method used to handle "N/A" values when Double is expected.
+     * 
+     * @param x
+     * @return 
+     */
     public static double handleDoubleHelper(String x) {
         Double y;
         if (Pattern.matches("N/A", x)) {
@@ -85,7 +94,12 @@ public class StockFetcher {
         return y;
     } /* end handleDoubleHelper */
 
-    // Helper method used to handle "N/A" values when Integer is expected
+    /**
+     * Helper method used to handle "N/A" values when Integer is expected.
+     * 
+     * @param x
+     * @return 
+     */
     public static int handleIntegerHelper(String x) {
         int y;
         if (Pattern.matches("N/A", x)) {

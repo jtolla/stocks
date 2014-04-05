@@ -14,12 +14,14 @@ import uml.spring2014.*;
 
 
 /**
-*
-* @author Sara Gerstung
-*/
+ * This class contains Main method and prompts the user to provide information
+ * about the portfolio they want to open.
+ * 
+ * @author Sara Gerstung
+ */
 public class PortfolioFrame extends javax.swing.JFrame {
 
-    /**
+   /**
     * Creates new form PortfolioFrame
     */
     public PortfolioFrame() {
@@ -150,7 +152,7 @@ public class PortfolioFrame extends javax.swing.JFrame {
     }
     
     /**
-     * Query the Portfolio table for a list
+     * Query the Portfolio table for a list existing portfolioNames.
      */
     private static void FillCombo(){
         
@@ -193,7 +195,7 @@ public class PortfolioFrame extends javax.swing.JFrame {
                 PortfolioArray.add(portfolio);
             }
         }catch(SQLException e1){
-            ArrayList<String> DefaultArray = new ArrayList<String>();
+            ArrayList<String> DefaultArray = new ArrayList<>();
             String message = "Add portfolio above.";
             DefaultArray.add(message);
             DefaultComboBoxModel model = new DefaultComboBoxModel(DefaultArray.toArray());
@@ -214,8 +216,10 @@ public class PortfolioFrame extends javax.swing.JFrame {
     } /* End FillCombo */
     
     /**
-    * If newPortField is blank an error shown and creation is not executed.
-    */
+     * If newPortField is blank an error shown and creation is not executed.
+     * 
+     * @param evt 
+     */
     private void newPortButtonActionPerformed(java.awt.event.ActionEvent evt) {
         
         try {       
@@ -228,7 +232,7 @@ public class PortfolioFrame extends javax.swing.JFrame {
                     
                     for(int i = 0; i < str.length(); ++i){
                         char c = str.charAt(i);
-                        if(!Character.isDigit(c) && !Character.isLetter(c) && !Character.isWhitespace(c)){
+                        if(!Character.isDigit(c) && !Character.isLetter(c)){
                             throw new NoDataException("Alpha-Numeric Names Only");
                         }
                         
@@ -256,8 +260,10 @@ public class PortfolioFrame extends javax.swing.JFrame {
     }/* End newPortButtonActionPerformed */
 
     /**
-    * User selects a portfolio from the comboBox to be opened.
-    */
+     * User selects a portfolio from the comboBox to be opened.
+     * 
+     * @param evt 
+     */
     private void openPortButtonActionPerformed(java.awt.event.ActionEvent evt) {
         
         try {
@@ -289,6 +295,8 @@ public class PortfolioFrame extends javax.swing.JFrame {
 
     /**
      * Exits program when Exit button is selected.
+     * 
+     * @param evt 
      */
     private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {
         
@@ -298,6 +306,8 @@ public class PortfolioFrame extends javax.swing.JFrame {
     
     /**
      * Clears all text fields on form when Clear button is selected.
+     * 
+     * @param evt 
      */
     private void clearFormButtonActionPerformed(java.awt.event.ActionEvent evt) {
         
@@ -308,7 +318,6 @@ public class PortfolioFrame extends javax.swing.JFrame {
 
     /**
      * @param args the command line arguments
-     * 
      */
     public static void main(String args[]){
         
@@ -348,4 +357,4 @@ public class PortfolioFrame extends javax.swing.JFrame {
     private        javax.swing.JButton openPortButton;
     private        javax.swing.JPanel portfolioPanel;
     // End of variables declaration
-}/*End PortfolioFrame*/
+}/* End PortfolioFrame */

@@ -18,15 +18,17 @@ import uml.spring2014.beans.PortfolioStockRelationshipEntity;
 import uml.spring2014.exceptions.*;
 
 /**
-* This frame will add or remove stocks from a users portfolio.
-* Users can search ticker symbols for data about a stock.
-*
-* @author Sara Gerstung
-*/
+ * This frame will add or remove stocks from a users portfolio.
+ * Users can search ticker symbols for data about a stock.
+ *
+ * @author Sara Gerstung
+ */
 public class StockMainFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form StockMainFrame
+     * 
+     * @param portfolio is portfolio object passed from PortfolioFrame
      */
     public StockMainFrame(Portfolio portfolio) {
         initComponents();
@@ -342,12 +344,14 @@ public class StockMainFrame extends javax.swing.JFrame {
         pack();
     } /* end initComponents */
     
-    /** Fills the list of stocks based on the current portfolio name*/
+    /**
+     * Fills the list of stocks based on the current portfolio name
+     */
     static void FillStockList(){
         try{
         
            String currentPortfolioName = portfolio.getPortfolioName();
-           ResultSet rs = DatabaseQueries.getPortfolioStockRelationships("SELECT * FROM portfoliostockrelationship WHERE portfolioName = " + currentPortfolioName);
+           ResultSet rs = DatabaseQueries.getPortfolioStockRelationships("SELECT * FROM portfoliostockrelationship WHERE portfolioName = '" + currentPortfolioName + "'");
             
             while(rs.next()){
                 String stock = rs.getString("stockSymbol");
@@ -361,13 +365,21 @@ public class StockMainFrame extends javax.swing.JFrame {
         }
     } /* end FillStockList */
         
-    /** Closes application */
+    /**
+     * Closes application on click of exit button.
+     * 
+     * @param evt 
+     */
     private void exitButton2ActionPerformed(java.awt.event.ActionEvent evt) {
         this.dispose();
     } /* end exitButton2ActionPerformed */
 
     
-    /** Clears all text fields, does not clear stockList if items are present. */
+    /**
+     * Clears all text fields, does not clear stockList if items are present.
+     * 
+     * @param evt 
+     */
     private void clearButton2ActionPerformed(java.awt.event.ActionEvent evt) {
         
         newPriceField.setText("");
@@ -388,7 +400,8 @@ public class StockMainFrame extends javax.swing.JFrame {
      * Checks value entered is not null and equal to four digits.
      * Catch requires user to enter new value before search is executed.
      * Sends symbol to StockFetcher to retrieve data and parse to text fields.
-     *
+     * 
+     * @param evt
      * @throws NoDataException
      */
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {
@@ -424,6 +437,8 @@ public class StockMainFrame extends javax.swing.JFrame {
 
     /**
      * On mouse click in tickerSearchField, remove example text and change font to plain.
+     * 
+     * @param evt 
      */
     private void tickerSearchFieldMouseClicked(java.awt.event.MouseEvent evt) {
     
@@ -436,7 +451,8 @@ public class StockMainFrame extends javax.swing.JFrame {
      * Adds symbol value as an element in stockList and Portfolio array.
      * Checks value entered is not null, and equal to four digits.
      * Catch requires user to enter new value before search is executed.
-     *
+     * 
+     * @param evt
      * @throws NoDataException
      */
     private void addStockButtonActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {
@@ -464,7 +480,9 @@ public class StockMainFrame extends javax.swing.JFrame {
 
     /**
      * Gets selected index from stockList and removes element from list and Portfolio array.
-     */
+     * 
+     * @param evt 
+     */     
     private void removeStockButtonActionPerformed(java.awt.event.ActionEvent evt) {
         
         String symbol = (String)stockList.getSelectedValue();
@@ -477,6 +495,8 @@ public class StockMainFrame extends javax.swing.JFrame {
 
     /**
      * On mouse click in stockList, query selected symbol and parse data to text fields.
+     *
+     * @param evt 
      */
     private void stockListMouseClicked(java.awt.event.MouseEvent evt) {
   
