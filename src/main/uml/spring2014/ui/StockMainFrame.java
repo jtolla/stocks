@@ -5,24 +5,29 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+
+import uml.spring2014.DatabaseQueries;
+import uml.spring2014.PortfolioStockRelationshipTable;
 import uml.spring2014.Stock;
 import uml.spring2014.Portfolio;
 import uml.spring2014.StockFetcher;
+import uml.spring2014.beans.PortfolioStockRelationshipEntity;
 import uml.spring2014.exceptions.*;
 
 /**
- * This frame will add or remove stocks from a users portfolio. 
- * Users can search ticker symbols for data about a stock.
- *
- * @author Sara Gerstung
- */
+* This frame will add or remove stocks from a users portfolio.
+* Users can search ticker symbols for data about a stock.
+*
+* @author Sara Gerstung
+*/
 public class StockMainFrame extends javax.swing.JFrame {
 
     /**
-     * Creates new form StockMainFrame
-     */
+* Creates new form StockMainFrame
+*/
     public StockMainFrame(Portfolio portfolio) {
         initComponents();
         this.setSize(450,600);
@@ -30,16 +35,16 @@ public class StockMainFrame extends javax.swing.JFrame {
         this.portfolio = portfolio;
         portNameLabel.setText(portfolio.getPortfolioName());
         portNameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        FillStockList();
+        
     }
 
     /**
-     * This method is called from within the constructor to initialize the form.
-     * 
-     */
+* This method is called from within the constructor to initialize the form.
+*
+*/
     private void initComponents() {
 
-	stockPanel = new javax.swing.JPanel();
+stockPanel = new javax.swing.JPanel();
         portNameLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         stockList = new javax.swing.JList();
@@ -100,7 +105,7 @@ public class StockMainFrame extends javax.swing.JFrame {
         });
 
         /** Search label and ticker entry field with text example */
-	searchLabel.setText("Search Symbol:");
+searchLabel.setText("Search Symbol:");
 
         tickerSearchField.setFont(new java.awt.Font("Tahoma", 2, 11));
         tickerSearchField.setText("ex: 'TSLA'");
@@ -112,12 +117,12 @@ public class StockMainFrame extends javax.swing.JFrame {
             }
         });
 
-	/** Create Labels and text fields to parse Stock data */
+/** Create Labels and text fields to parse Stock data */
         symbolLabel.setText("Symbol:");
-	symbolField.setFocusable(false);
+symbolField.setFocusable(false);
 
         priceLabel.setText("Price:");
-	priceField.setFocusable(false);
+priceField.setFocusable(false);
 
         volumeLabel.setText("Volume:");
         volumeField.setFocusable(false);
@@ -137,10 +142,10 @@ public class StockMainFrame extends javax.swing.JFrame {
         newVolumeLabel.setText("Volume:");
         newVolumeField.setFocusable(false);
         
-	newYearHighLabel.setText("52 Week High:");
+newYearHighLabel.setText("52 Week High:");
         newYearHighField.setFocusable(false);
         
-	newYearLowLabel.setText("52 Week Low:");
+newYearLowLabel.setText("52 Week Low:");
         newYearLowField.setFocusable(false);
 
 
@@ -334,27 +339,34 @@ public class StockMainFrame extends javax.swing.JFrame {
 
         pack();
     }
-    
-    private void FillStockList(){
+    /** Assuming this fills the list of stocks based on the current portfolio name*/
+    static void FillStockList(){
+        try{
         
-        DatabaseQueries.getStocks();
+           String currentPortfolioName = portfolio.getPortfolioName();
+           ResultSet rs = DatabaseQueries.getPortfolioStockRelationships("SELECT * FROM portfoliostockrelationship WHERE portfolioName = " + currentPortfolioName);
+            
             while(rs.next()){
                 String stock = rs.getString("stockSymbol");
                 stockList.setModel(listModel);
                 listModel.addElement(stock);
             }
-
+        }catch(Exception e){
+         String stock2 = "Default";
+         stockList.setModel(listModel);
+            listModel.addElement(stock2);
+        }
     }
         
     /** Closes application */
-    private void exitButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                            
+    private void exitButton2ActionPerformed(java.awt.event.ActionEvent evt) {
         
-	this.dispose();
-    }                                           
+this.dispose();
+    }
 
     
-    /** Clears all text fields, does not clear stockList if items are present. */    
-    private void clearButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                             
+    /** Clears all text fields, does not clear stockList if items are present. */
+    private void clearButton2ActionPerformed(java.awt.event.ActionEvent evt) {
         
         newPriceField.setText("");
         newSymbolField.setText("");
@@ -368,16 +380,16 @@ public class StockMainFrame extends javax.swing.JFrame {
         yearHighField.setText("");
         yearLowField.setText("");
         
-    }                                            
+    }
 
-     /** 
-      * Checks value entered is not null and equal to four digits. 
-      * Catch requires user to enter new value before search is executed.
-      * Sends symbol to StockFetcher to retrieve data and parse to text fields.
-      * 
-      * @throws NoDataException
-      */
-    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {                                             
+     /**
+* Checks value entered is not null and equal to four digits.
+* Catch requires user to enter new value before search is executed.
+* Sends symbol to StockFetcher to retrieve data and parse to text fields.
+*
+* @throws NoDataException
+*/
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {
         
         try {
                         
@@ -401,7 +413,7 @@ public class StockMainFrame extends javax.swing.JFrame {
                 
         } catch(NoDataException e) {
 
-                JOptionPane.showConfirmDialog(this, e.getMessage(), "Unable to Search", 
+                JOptionPane.showConfirmDialog(this, e.getMessage(), "Unable to Search",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE);
                     
           } // end try catch
@@ -409,25 +421,25 @@ public class StockMainFrame extends javax.swing.JFrame {
     
 
     /**
-     * On mouseclick in tickerSearchField, remove example text and change font to plain.
-     */
-    private void tickerSearchFieldMouseClicked(java.awt.event.MouseEvent evt) {                                               
+* On mouseclick in tickerSearchField, remove example text and change font to plain.
+*/
+    private void tickerSearchFieldMouseClicked(java.awt.event.MouseEvent evt) {
         
-	tickerSearchField.setText("");
+tickerSearchField.setText("");
         tickerSearchField.setFont(new Font("Tahoma", Font.PLAIN, 11));
         
-    }                                            
+    }
 
-     /** 
-      * Adds symbol value as an element in stockList and Portfolio array.
-      * Checks value entered is not null, and equal to four digits. 
-      * Catch requires user to enter new value before search is executed.
-      * 
-      * @throws NoDataException
-      */
+     /**
+* Adds symbol value as an element in stockList and Portfolio array.
+* Checks value entered is not null, and equal to four digits.
+* Catch requires user to enter new value before search is executed.
+*
+* @throws NoDataException
+*/
     private void addStockButtonActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {
-	
-	try {
+
+try {
 
                 String symbol = newSymbolField.getText();
                 String portfolioName = portfolio.getPortfolioName();
@@ -436,13 +448,13 @@ public class StockMainFrame extends javax.swing.JFrame {
                     throw new NoDataException("Invalid Symbol");
                 } // end if
                 
-                Portfolio.addStockToPortfolio(symbol, portfolioName);
+                Stock.addStockToPortfolio(symbol, portfolioName);
                 stockList.setModel(listModel);
                 listModel.addElement(symbol);
 
             } catch(NoDataException e) {
 
-                JOptionPane.showConfirmDialog(this, e.getMessage(), "Unable to Add Stock", 
+                JOptionPane.showConfirmDialog(this, e.getMessage(), "Unable to Add Stock",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE);
                     
               } // end try catch
@@ -450,34 +462,23 @@ public class StockMainFrame extends javax.swing.JFrame {
     }
 
     /**
-     * Gets selected index from stockList and removes element from list and Portfolio array.
-     */
+* Gets selected index from stockList and removes element from list and Portfolio array.
+*/
     private void removeStockButtonActionPerformed(java.awt.event.ActionEvent evt) {
         
-        try{
-            String symbol = (String)stockList.getSelectedValue();
-            String portfolioName = portfolio.getPortfolioName();
-            
-            if(stockList.getSelectedIndex() == -1){
-                throw new NoDataException("Select Item to Remove");
-            }
-                
-            Portfolio.removeStockFromPortfolio(symbol, portfolioName);
-            listModel.remove(stockList.getSelectedIndex());
-            
-        } catch(NoDataException e) {
-
-                JOptionPane.showConfirmDialog(this, e.getMessage(), "Unable to Remove Stock", 
-                        JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE);
-                    
-              } // end try catch
+        String symbol = (String)stockList.getSelectedValue();
+      
         
+        String portfolioName = portfolio.getPortfolioName();
+       // System.out.println("symbol is " + portfolioName); Andrew fixing query
+        PortfolioStockRelationshipTable.deleteStockFromPortfolio(symbol, portfolioName);
+        listModel.remove(stockList.getSelectedIndex());
     }
 
     /**
-     * On mouse click in stockList, query selected symbol and parse data to text fields.
-     */
-    private void stockListMouseClicked(java.awt.event.MouseEvent evt) {                                       
+* On mouse click in stockList, query selected symbol and parse data to text fields.
+*/
+    private void stockListMouseClicked(java.awt.event.MouseEvent evt) {
   
         String symbol = (String)stockList.getSelectedValue();
         
@@ -493,7 +494,7 @@ public class StockMainFrame extends javax.swing.JFrame {
         yearHighField.setText(fiftyTwoWeekHigh);
         yearLowField.setText(fiftyTwoWeekLow);
         
-    }                                              
+    }
 
     // Variables declaration - do not modify
     private javax.swing.JButton addStockButton;
@@ -517,7 +518,7 @@ public class StockMainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel priceLabel;
     private javax.swing.JButton searchButton;
     private javax.swing.JLabel searchLabel;
-    private javax.swing.JList stockList;
+    private static javax.swing.JList stockList;
     private javax.swing.JPanel stockPanel;
     private javax.swing.JTextField symbolField;
     private javax.swing.JLabel symbolLabel;
@@ -528,8 +529,6 @@ public class StockMainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel yearHighLabel;
     private javax.swing.JTextField yearLowField;
     private javax.swing.JLabel yearLowLabel;
-    private Portfolio portfolio;
-    private DefaultListModel listModel;
-    private ResultSet rs;
+    private static Portfolio portfolio;
+    private static DefaultListModel listModel;
     // End of variables declaration
-}

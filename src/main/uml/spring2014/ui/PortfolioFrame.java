@@ -1,30 +1,36 @@
 package uml.spring2014.ui;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import javax.swing.*;
+
+import com.mysql.jdbc.PreparedStatement;
+import com.sun.jndi.ldap.Connection;
+
 import uml.spring2014.exceptions.NoDataException;
 import uml.spring2014.*;
 
 
 /**
- *
- * @author Sara Gerstung
- */
+*
+* @author Sara Gerstung
+*/
 public class PortfolioFrame extends javax.swing.JFrame {
 
     /**
-     * Creates new form PortfolioFrame
-     */
+* Creates new form PortfolioFrame
+*/
     public PortfolioFrame() {
         initComponents();
         this.setTitle("Stock Market Portfolio System");
-        FillCombo();
     }
 
     /**
-     * This method is called from within the constructor to initialize the form.
-     * 
-     */
+* This method is called from within the constructor to initialize the form.
+*
+*/
     private void initComponents() {
         
         portfolioPanel = new javax.swing.JPanel();
@@ -145,20 +151,68 @@ public class PortfolioFrame extends javax.swing.JFrame {
     }
     
     /**
-     * Query the Portfolio table for a list
-     */
-    private void FillCombo(){
-        ResultSet newRs;
-        ;
-            while(rs.next()){
-                String portfolio = rs.getString("portfolioName");
-                portListCombo.addItem(portfolio);
-            }
+* Query the Portfolio table for a list
+*/
+    private static void FillCombo(){
+     DatabaseQueries.getPortfolios("SELECT * FROM portfolio");
+      
+     java.sql.Connection conn = null;
+try {
+conn = DatabaseConnect.getConnection();
+} catch (SQLException e4) {
+// TODO Auto-generated catch block
+e4.printStackTrace();
+}
+    
+     ArrayList<String> PortfolioArray = new ArrayList<String>();
+     String query = ("SELECT * FROM portfolio");
+     PreparedStatement stm = null;
+try {
+stm = (PreparedStatement) conn.prepareStatement(query);
+} catch (SQLException e3) {
+// TODO Auto-generated catch block
+e3.printStackTrace();
+}
+
+     ResultSet rs = null;
+try {
+rs = stm.executeQuery(query);
+} catch (SQLException e2) {
+// TODO Auto-generated catch block
+e2.printStackTrace();
+}
+
+     try {
+while (rs.next()) {
+String portfolio = rs.getString("portfolioName");
+// add group names to the array list
+PortfolioArray.add(portfolio);
+}
+} catch (SQLException e1) {
+ArrayList<String> DefaultArray = new ArrayList<String>();
+String message = "Add portfolio above.";
+DefaultArray.add(message);
+DefaultComboBoxModel model = new DefaultComboBoxModel(DefaultArray.toArray());
+portListCombo.setModel(model);
+}
+
+     try {
+rs.close();
+} catch (SQLException e) {
+// TODO Auto-generated catch block
+e.printStackTrace();
+}
+
+
+     // Populate the combo box
+     DefaultComboBoxModel model = new DefaultComboBoxModel(PortfolioArray.toArray());
+     portListCombo.setModel(model);
+
     }
     
     /**
-     * If newPortField is blank an error shown and creation is not executed.
-     */
+* If newPortField is blank an error shown and creation is not executed.
+*/
     private void newPortButtonActionPerformed(java.awt.event.ActionEvent evt) {
         
         try {
@@ -174,26 +228,26 @@ public class PortfolioFrame extends javax.swing.JFrame {
                     @Override
                     public void run() {
                         new StockMainFrame(portfolio).setVisible(true);
-                   } 
+                   }
                 });
                 
             } catch(NoDataException e) {
 
-                JOptionPane.showConfirmDialog(this, e.getMessage(), "Unable to Create Portfolio", 
+                JOptionPane.showConfirmDialog(this, e.getMessage(), "Unable to Create Portfolio",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE);
                     
               } // end try catch
         
-    }                                             
+    }
 
     /**
-     * Method searches for an existing portfolio to open. If no name is entered
-     * an error message occurs and does not proceed with code. Need to add
-     * functionality to search in next iteration.
-     */
+* Method searches for an existing portfolio to open. If no name is entered
+* an error message occurs and does not proceed with code. Need to add
+* functionality to search in next iteration.
+*/
     private void openPortButtonActionPerformed(java.awt.event.ActionEvent evt) {
         
-        try {   
+        try {
                 String portfolioName = (String)portListCombo.getSelectedItem();
                 
                 final Portfolio portfolio = new Portfolio(portfolioName);
@@ -208,12 +262,12 @@ public class PortfolioFrame extends javax.swing.JFrame {
                     public void run() {
                         new StockMainFrame(portfolio).setVisible(true);
                         
-                    } 
+                    }
                 });
                 
             } catch(NoDataException e) {
 
-                JOptionPane.showConfirmDialog(this, e.getMessage(), "Unable to Open Portfolio", 
+                JOptionPane.showConfirmDialog(this, e.getMessage(), "Unable to Open Portfolio",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE);
                     
               } // end try catch
@@ -221,8 +275,8 @@ public class PortfolioFrame extends javax.swing.JFrame {
     }
 
     /**
-     * Exits program when Exit button is selected.
-     */
+* Exits program when Exit button is selected.
+*/
     private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {
         
         this.dispose();
@@ -230,9 +284,9 @@ public class PortfolioFrame extends javax.swing.JFrame {
     }
     
     /**
-     * Clears all text fields on form when Clear button is selected.
-     *  
-     */
+* Clears all text fields on form when Clear button is selected.
+*
+*/
     private void clearFormButtonActionPerformed(java.awt.event.ActionEvent evt) {
         
         newPortField.setText("");
@@ -241,11 +295,11 @@ public class PortfolioFrame extends javax.swing.JFrame {
     }
 
     /**
-     * @param args the command line arguments
-     * @throws SQLException 
-     */
+* @param args the command line arguments
+* @throws SQLException
+*/
     public static void main(String args[]){
-        	
+        
         /* Set the Nimbus look and feel */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -263,13 +317,17 @@ public class PortfolioFrame extends javax.swing.JFrame {
             @Override
             public void run() {
                 new PortfolioFrame().setVisible(true);
+                //StockMainFrame.FillStockList();
+               FillCombo();
+                
                 
             }
         });
     }
-    // Variables declaration - do not modify
+
+// Variables declaration - do not modify
     private javax.swing.JButton clearFormButton;
-    public static javax.swing.JComboBox portListCombo;
+    private static javax.swing.JComboBox<String> portListCombo;
     private javax.swing.JLabel existPortLabel;
     private javax.swing.JButton exitButton;
     private javax.swing.JButton newPortButton;
@@ -277,6 +335,5 @@ public class PortfolioFrame extends javax.swing.JFrame {
     private javax.swing.JLabel newPortLabel;
     private javax.swing.JButton openPortButton;
     private javax.swing.JPanel portfolioPanel;
-    private static ResultSet rs;
     // End of variables declaration
 }
